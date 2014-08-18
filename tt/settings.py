@@ -114,7 +114,7 @@ DATE_FORMAT = 'd.m.Y'
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_all')
+STATIC_ROOT = os.path.join(BASE_DIR, 'collectstatic')
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR, 'static'),
