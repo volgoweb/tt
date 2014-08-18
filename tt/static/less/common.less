@@ -1,0 +1,41 @@
+td, th {
+    padding: 5px;
+}
+
+.form-label {
+    color: gray;
+    font-weight: bold;
+}
+
+.collapse-btn {
+    width: 100%;
+    text-align: left;
+}
+.collapse-btn.collapsed {
+    background-color: transparent;
+}
+.collapse-btn:after {
+    content: ' (свернуть)'
+}
+.collapse-btn.collapsed:after {
+    content: ' (развернуть)'
+}
+.collapsible-block {
+    background-color: white;
+    border: 1px solid gray;
+    padding: 10px;
+}
+
+
+// .inline-label {
+//     overflow: hidden;
+// }
+.inline-label .form-label,
+.inline-label .form-value  {
+    display: inline-block;
+}
+
+.inline-item {
+    display: inline-block;
+    margin-right: 10px;
+}

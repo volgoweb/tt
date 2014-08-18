@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load portfolio__blocks %}
+{% load sitetree %}
+
+
+{% block page_title %}main page{% endblock %}
+
+{% block main_menu %}
+    {% sitetree_menu from "main_menu" include "root" template "sitetree/menu_bootstrap3.html" %}
+{% endblock %}
+
+{% block content %}
+    Это самая лучшая компания.
+{% endblock %}
+
+{% block right_sidebar %}
+  {# {% last_portfolios_block  %} #}
+  {% portfolios_slider_block %}
+{% endblock %}

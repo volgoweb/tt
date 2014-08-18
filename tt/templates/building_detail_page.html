@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block page_title %}{{ model.name }}{% endblock %}
+
+{% block content %}
+    {% include "theme_framework_dk/detail/left_img.html" with item=model  item_body_template="residence/residences-item__body.html" %}
+{% endblock %}
