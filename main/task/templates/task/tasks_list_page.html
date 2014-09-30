@@ -1,0 +1,96 @@
+{% extends "page.html" %}
+
+{% load staticfiles %}
+{% load i18n %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" media="all" href="{% static "css/task.css" %}" />
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static "js/task.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+  <div class="tasks" ng-app="task" ng-controller="tasksList as c">
+    <table class="tasks-list col-md-6">
+      <thead>
+        <tr>
+          <th>{% trans "Complete" %}</th>
+          <th>Название</th>
+          <th>Статус</th>
+          <th>Исполнитель</th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody class="tasks__list">
+        {% verbatim %}
+            <tr 
+              id="{{ 'tasks-list__item-' + m.id }}" 
+              class="tasks-list__item {{ chosen_task.id == m.id && 'active' || '' }}" 
+              ng-repeat="m in tasks"
+            >
+                <td><input type="checkbox" ng-model="m.status.value" ng-change="c.saveTask(m)" ng-true-value="ready" ng-false-value="in_work"/></td>
+                <td ng-click="c.showDetailTask(m.id)"><span class="task-priority task-priority_{{ m.priority.value }}"></span> {{ m.title }}</td>
+                <td ng-click="c.showDetailTask(m.id)">{{ m.status.title }}</td>
+                <td ng-click="c.showDetailTask(m.id)">{{ m.performer.title }}</td>
+            </tr>
+        {% endverbatim %}
+      </tbody>
+    </table>
+
+    <form class="tasks__task-detail col-md-6" name="taskDetailForm" ng-show="chosen_task">
+        <div class="task-detail__actions">
+            <button class="btn btn-success" ng-click="c.saveTask(chosen_task)" ng-disabled="taskDetailForm.$pristine">Сохранить</button>
+        </div>
+        {% verbatim %}
+            <h2>{{ chosen_task.title }}</h2>
+
+            <div>
+                <label>{{ models.Task.fields_verbose_names.desc }}</label>
+                <span>{{ chosen_task.desc }}</span>
+            </div>
+
+            <div>
+                <label>{{ models.Task.fields_verbose_names.priority }}</label>
+                  <span>
+                    <label 
+                      for="form-field-priority__{{ k }}" 
+                      class="radio-inline" 
+                      ng-repeat="(k, v) in chosen_task.priority.choices"
+                    >
+                      <input 
+                        id="form-field-priority__{{ k }}" 
+                        type="radio" 
+                        ng-model="chosen_task.priority.value" 
+                        value="{{ k }}"
+                      />
+                      <span class="task-priority task-priority_{{ k }}"></span>
+                    </label>
+
+
+
+                </span>
+            </div>
+
+            <div>
+                <label>{{ models.Task.fields_verbose_names.status }}</label>
+                <span>{{ chosen_task.status.title }}</span>
+                <select ng-model="chosen_task.status.value" ng-options="k as v for (k, v) in chosen_task.status.choices" ng-change="c.setModelFieldTitle(chosen_task, 'status')">
+                </select>
+            </div>
+
+            <div>
+                <label>{{ models.Task.fields_verbose_names.performer }}</label>
+                <span>{{ chosen_task.performer.title }}</span>
+                <select ng-model="chosen_task.performer.value" ng-options="k as v for (k, v) in chosen_task.performer.choices" ng-change="c.setModelFieldTitle(chosen_task, 'performer')">
+                </select>
+            </div>
+
+        {% endverbatim %}
+    </div>
+  </div>
+{% endblock %}

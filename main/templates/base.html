@@ -1,0 +1,16 @@
+{% extends "theme_framework_dk/base/bootstrap.html" %}
+{% load staticfiles %}
+
+{# {% block less %} #}
+{#     {{ super }} #}
+{#     <link rel="stylesheet" type="text/less" media="all" href="{% static "less/theme_framework_dk/detail/all_centered__img_top_1.less" %}" /> #}
+{# {% endblock %} #}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/global_ajax_csrf.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/angular.min.js' %}"></script>
+{% endblock %}
+
+{% block main_menu %}
+{% endblock %}

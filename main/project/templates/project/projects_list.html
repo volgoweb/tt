@@ -1,0 +1,27 @@
+{% extends "page.html" %}
+
+{% load staticfiles %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static "js/project.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="angular" ng-app="project">
+        <div class="angular" ng-controller="projects">
+            <ul class="projects-list" ng-repeat="p in projects">
+                {% verbatim %}
+                    <div ng-controller="projectItem as ctrl">
+                      <li id="projects-list__item_{{ p.id }}" class="projects-list__item field-title" ng-click="ctrl.click('#projects-list__item_' + p.id)">
+                          <span class="field-view">{{ p.title }}</span>
+                          <span class="field-edit">
+                            <input class="field-title-input" type="text" value="{{ p.title }}"/>
+                          </span>
+                        </li>
+                    </div>
+                {% endverbatim %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

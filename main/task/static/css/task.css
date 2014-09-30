@@ -1,0 +1,40 @@
+
+.tasks-list__item td[ng-click] {
+    cursor: pointer;
+}
+
+.tasks-list__item.active,
+.tasks-list__item:hover {
+    background-color: silver;
+}
+
+.tasks-list__item .list-item__actions {
+    display: none;
+}
+
+.tasks-list__item:hover .list-item__actions {
+    display: inherit;
+}
+
+.task-priority {
+    height: 15px;
+    width: 15px;
+    display: inline-block;
+    border: gray;
+}
+
+.task-priority_2 {
+    background-color: red;
+}
+
+.task-priority_1 {
+    background-color: pink;
+}
+
+.task-priority_-1 {
+    background-color: silver;
+}
+
+.task-priority_-2 {
+    background-color: gray;
+}
