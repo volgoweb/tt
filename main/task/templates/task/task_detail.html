@@ -1,0 +1,73 @@
+
+<form class="tasks__task-detail" name="taskDetailForm" ng-show="chosen_task">
+    <div class="task-detail__actions">
+        <button class="btn btn-default" 
+            ng-click="chosen_task.view_mode = 'edit'" 
+            ng-show="chosen_task.view_mode == 'view'"
+        >Редактировать</button>
+
+        <button class="btn btn-success" 
+            ng-click="c.saveTask(chosen_task)" 
+            ng-disabled="taskDetailForm.$pristine"
+            ng-show="chosen_task.view_mode == 'edit'"
+        >Сохранить</button>
+
+        <div class="action-container" ng-repeat="act in chosen_task.actions">
+          <button class="btn btn-success" ng-click="c.runAction(chosen_task.id, act.name)">{{ act.title }}</button>
+        </div>
+    </div>
+
+    {% verbatim %}
+    <h2>{{ chosen_task.title }}</h2>
+
+    <div>
+        <label>{{ models.Task.fields_verbose_names.desc }}</label>
+        <span>{{ chosen_task.desc }}</span>
+    </div>
+    {% endverbatim %}
+
+    {# ------- priority ------- #}
+    <div 
+        class="field-edit" 
+        ng-if="chosen_task.priority.access_type == main.helper.FIELD_ACCESS_TYPE_FULL && chosen_task.view_mode == 'edit'"
+    >
+        {% include "task/task_detail/field_priority/edit_mode.html" %}
+    </div>
+    <div 
+        class="field-edit" 
+        ng-if="chosen_task.priority.access_type != main.helper.FIELD_ACCESS_TYPE_DENY && chosen_task.view_mode == 'view'"
+    >
+        {% include "task/task_detail/field_priority/view_mode.html" %}
+    </div>
+    {# ------- / priority ------- #}
+
+    {# ------- status ------- #}
+    <div 
+        class="field-edit" 
+        ng-if="chosen_task.status.access_type == main.helper.FIELD_ACCESS_TYPE_FULL && chosen_task.view_mode == 'edit'"
+    >
+        {% include "task/task_detail/field_status/edit_mode.html" %}
+    </div>
+    <div 
+        class="field-edit" 
+        ng-if="chosen_task.status.access_type != main.helper.FIELD_ACCESS_TYPE_DENY && chosen_task.view_mode == 'view'"
+    >
+        {% include "task/task_detail/field_status/view_mode.html" %}
+    </div>
+    {# ------- / status ------- #}
+
+    {# ------- performer ------- #}
+    <div 
+        class="field-edit" 
+        ng-if="chosen_task.performer.access_type == main.helper.FIELD_ACCESS_TYPE_FULL && chosen_task.view_mode == 'edit'"
+    >
+        {% include "task/task_detail/field_performer/edit_mode.html" %}
+    </div>
+    <div 
+        class="field-edit" 
+        ng-if="chosen_task.performer.access_type != main.helper.FIELD_ACCESS_TYPE_DENY && chosen_task.view_mode == 'view'"
+    >
+        {% include "task/task_detail/field_performer/view_mode.html" %}
+    </div>
+    {# ------- / performer ------- #}
+</form>

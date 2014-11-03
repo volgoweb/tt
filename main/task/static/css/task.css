@@ -20,7 +20,7 @@
     height: 15px;
     width: 15px;
     display: inline-block;
-    border: gray;
+    border: 1px solid gray;
 }
 
 .task-priority_2 {

@@ -8,6 +8,12 @@
 
 {% block scripts %}
     {{ block.super }}
+    <script type="text/javascript">
+        var main = {
+            helper: {},
+            task: {},
+        }
+    </script>
     <script type="text/javascript" src="{% static 'js/global_ajax_csrf.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/angular.min.js' %}"></script>
 {% endblock %}

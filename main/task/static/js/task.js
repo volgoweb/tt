@@ -2,30 +2,30 @@
 var app = angular.module('task', []);
 app.task_item_css_class = 'tasks-list__item';
 app.task_detail_css = '.tasks__task-detail';
+app.base_url = '/tasks/';
+app.base_rest_url = app.base_url + 'rest/';
 
 app.controller('tasksList', function($scope, $http) {
-  $http.get('/task/rest/').success(function(data) {
+  $http.get(app.base_rest_url).success(function(data) {
     $scope.tasks = {};
+    $scope.main = main;
+    console.log($scope.main.helper);
+
     $.each(data, function(i, el) {
       $scope.tasks[el.id] = el;
     });
   });
 
-  $http.get('/task/get-models/').success(function(data) {
+  $http.get(app.base_url + 'get-models/').success(function(data) {
     $scope.models = data;
   });
 
 
-  this.edit = function(task_id) {
-  };
-
   this.showDetailTask = function(task_id) {
     $scope.chosen_task = $scope.tasks[task_id];
+    $scope.chosen_task.view_mode = 'view';
     console.log($scope.chosen_task);
   };
-
-  // this.changeCompleted = function(task_id, status) {
-  // };
 
   this.setModelFieldTitle = function(task, field_name) {
       var value = task[field_name]['value'];
@@ -37,9 +37,16 @@ app.controller('tasksList', function($scope, $http) {
     $http.defaults.headers.post['X-CSRFToken'] = csrf;
     $http.defaults.headers.put['X-CSRFToken'] = csrf;
     // TODO добавить для всех аякс-загрузок заставку-ожидание
-    $http.put('/task/rest/' + task.id, task).success(function(data) {
+    $http.put(app.base_rest_url + task.id, task).success(function(data) {
         $scope.tasks[task.id] = data
         $scope.taskDetailForm.$setPristine();
+        $scope.chosen_task.view_mode = 'view';
+    });
+  };
+
+  this.runAction = function(task_id, action_name) {
+    $http.get(app.base_rest_url + task_id + '/run_action/?action=' + action_name).success(function(data) {
+        $scope.chosen_task = $scope.tasks[task_id] = data
     });
   };
 });

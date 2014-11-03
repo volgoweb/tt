@@ -1,0 +1,10 @@
+
+{% verbatim %}
+    <label>{{ models.Task.fields_verbose_names.performer }}</label>
+    <select 
+        ng-model="chosen_task.performer.value" 
+        ng-options="k as v for (k, v) in chosen_task.performer.choices" 
+        ng-change="c.setModelFieldTitle(chosen_task, 'performer')"
+    >
+    </select>
+{% endverbatim %}

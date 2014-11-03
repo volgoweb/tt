@@ -1,16 +1,18 @@
-{% extends "page.html" %}
+{% extends "task/base.html" %}
 
 {% load staticfiles %}
 {% load i18n %}
 
-{% block css %}
-    {{ block.super }}
-    <link rel="stylesheet" type="text/css" media="all" href="{% static "css/task.css" %}" />
-{% endblock %}
-
 {% block scripts %}
     {{ block.super }}
-    <script type="text/javascript" src="{% static "js/task.js" %}"></script>
+    <script type="text/javascript">
+        $.extend(main.helper, {
+            FIELD_ACCESS_TYPE_DENY: {{ ModelFieldsAccessTypeMixin.FIELD_ACCESS_TYPE_DENY }},
+            FIELD_ACCESS_TYPE_VIEW: {{ ModelFieldsAccessTypeMixin.FIELD_ACCESS_TYPE_VIEW }},
+            FIELD_ACCESS_TYPE_FULL: {{ ModelFieldsAccessTypeMixin.FIELD_ACCESS_TYPE_FULL }},
+        });
+    </script>
+
 {% endblock %}
 
 {% block content %}
@@ -42,55 +44,8 @@
       </tbody>
     </table>
 
-    <form class="tasks__task-detail col-md-6" name="taskDetailForm" ng-show="chosen_task">
-        <div class="task-detail__actions">
-            <button class="btn btn-success" ng-click="c.saveTask(chosen_task)" ng-disabled="taskDetailForm.$pristine">Сохранить</button>
-        </div>
-        {% verbatim %}
-            <h2>{{ chosen_task.title }}</h2>
-
-            <div>
-                <label>{{ models.Task.fields_verbose_names.desc }}</label>
-                <span>{{ chosen_task.desc }}</span>
-            </div>
-
-            <div>
-                <label>{{ models.Task.fields_verbose_names.priority }}</label>
-                  <span>
-                    <label 
-                      for="form-field-priority__{{ k }}" 
-                      class="radio-inline" 
-                      ng-repeat="(k, v) in chosen_task.priority.choices"
-                    >
-                      <input 
-                        id="form-field-priority__{{ k }}" 
-                        type="radio" 
-                        ng-model="chosen_task.priority.value" 
-                        value="{{ k }}"
-                      />
-                      <span class="task-priority task-priority_{{ k }}"></span>
-                    </label>
-
-
-
-                </span>
-            </div>
-
-            <div>
-                <label>{{ models.Task.fields_verbose_names.status }}</label>
-                <span>{{ chosen_task.status.title }}</span>
-                <select ng-model="chosen_task.status.value" ng-options="k as v for (k, v) in chosen_task.status.choices" ng-change="c.setModelFieldTitle(chosen_task, 'status')">
-                </select>
-            </div>
-
-            <div>
-                <label>{{ models.Task.fields_verbose_names.performer }}</label>
-                <span>{{ chosen_task.performer.title }}</span>
-                <select ng-model="chosen_task.performer.value" ng-options="k as v for (k, v) in chosen_task.performer.choices" ng-change="c.setModelFieldTitle(chosen_task, 'performer')">
-                </select>
-            </div>
-
-        {% endverbatim %}
+    <div class="col-md-6">
+        {% include "task/task_detail.html" %}
     </div>
-  </div>
+</div> {# .tasks #}
 {% endblock %}

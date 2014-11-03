@@ -1,0 +1,14 @@
+{% extends "page.html" %}
+
+{% load staticfiles %}
+{% load i18n %}
+
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" media="all" href="{% static "css/task.css" %}" />
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static "js/task.js" %}"></script>
+{% endblock %}
