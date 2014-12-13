@@ -13,7 +13,7 @@ router = routers.DefaultRouter()
 router.register(r'', TaskViewSet)
 
 urlpatterns = patterns('',
-    url(r'^$', login_required(TaskMainPage.as_view()), name='task__main_page'),
-    url(r'^get-models/$', TaskModelsInfoView.as_view(), name='task__get_models'),
-    url(r'^rest', include(router.urls), name='task__rest'),
+    url(r'^$', login_required(TaskMainPage.as_view()), name='main_page'),
+    url(r'^get-models/$', TaskModelsInfoView.as_view(), name='get_models'),
+    url(r'^rest', include(router.urls), name='rest'),
 )

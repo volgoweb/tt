@@ -21,6 +21,7 @@ class TaskMainPage(TemplateView):
         }
         return context
 
+
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
@@ -32,6 +33,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         action = request.GET.get('action')
         if action:
             task.run_action(action, request.user)
+        # TODO обрабатывать неуспех
         serializer = self.get_serializer(task)
         return Response(serializer.data)
 

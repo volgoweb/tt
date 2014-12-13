@@ -1,0 +1,12 @@
+
+{% extends "page.html" %}
+
+{% block content %}
+    <div class="row">
+        <form  method="POST" accept-charset="utf-8">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Войти"/>
+        </form>
+    </div>
+{% endblock %}

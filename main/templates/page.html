@@ -4,8 +4,8 @@
 
 {% block main_menu %}
     {# {% sitetree_menu from "main_menu" include "root" template "sitetree/menu_bootstrap3.html" %} #}
-    <a href="{% url "project__projects_list_page" %}">Проекты</a>
-    <a href="{% url "task__main_page" %}">Задачи</a>
+    <a href="{% url "project:projects_list_page" %}">Проекты</a>
+    <a href="{% url "task:main_page" %}">Задачи</a>
 {% endblock %}
 
 {% block content %}

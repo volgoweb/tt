@@ -12,9 +12,11 @@
             ng-show="chosen_task.view_mode == 'edit'"
         >Сохранить</button>
 
-        <div class="action-container" ng-repeat="act in chosen_task.actions">
-          <button class="btn btn-success" ng-click="c.runAction(chosen_task.id, act.name)">{{ act.title }}</button>
+    {% verbatim %}
+        <div class="action-container" ng-repeat="(act_name, act_title) in chosen_task.actions">
+            <button class="btn btn-success" ng-click="c.runAction(chosen_task.id, act_name)">{{act_title}}</button>
         </div>
+    {% endverbatim %}
     </div>
 
     {% verbatim %}

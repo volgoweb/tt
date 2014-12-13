@@ -6,8 +6,9 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'main.views.front_page', name='front_page'),
-    url(r'^projects/', include('main.project.urls')),
-    url(r'^tasks/', include('main.task.urls')),
+    url(r'^projects/', include('main.project.urls', namespace='project')),
+    url(r'^tasks/', include('main.task.urls', namespace='task')),
+    url(r'^accounts/', include('main.account.urls', namespace='account')),
 
     url(r'^admin/', include(admin.site.urls)),
 

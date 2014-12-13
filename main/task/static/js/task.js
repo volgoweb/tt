@@ -47,6 +47,7 @@ app.controller('tasksList', function($scope, $http) {
   this.runAction = function(task_id, action_name) {
     $http.get(app.base_rest_url + task_id + '/run_action/?action=' + action_name).success(function(data) {
         $scope.chosen_task = $scope.tasks[task_id] = data
+        $scope.chosen_task.view_mode = 'view';
     });
   };
 });

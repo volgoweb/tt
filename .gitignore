@@ -1,2 +1,6 @@
 *.pyc
 collectstatic
+*.log
+.ropeproject
+*/.ropeproject
+*/*/.ropeproject
