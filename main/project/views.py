@@ -18,7 +18,7 @@ class ProjectsList(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Project.objects.get_active()
+        return Project.objects.active()
 
 class ProjectsMainList(ProjectsList):
     @login_required()

@@ -1,10 +1,7 @@
+{% extends "task/task_detail/field_status/add_mode.html" %}
 
-{% verbatim %}
-    <label>{{ models.Task.fields_verbose_names.status }}</label>
-    <select 
-        ng-model="chosen_task.status.value" 
-        ng-options="k as v for (k, v) in chosen_task.status.choices" 
-        ng-change="c.setModelFieldTitle(chosen_task, 'status')"
-    >
-    </select>
-{% endverbatim %}
+{% block input_directives %}
+    ng-model="{{ obj_name }}.status.value" 
+    ng-options="k as v for (k, v) in chosen_task.status.choices" 
+    ng-change="c.setModelFieldTitle(chosen_task, 'status')"
+{% endblock %}

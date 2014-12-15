@@ -26,6 +26,10 @@ class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
+    def create(self, request, *args, **kwargs):
+        request.DATA[u'author'] = unicode(request.user.pk)
+        return super(TaskViewSet, self).create(request, *args, **kwargs)
+
     @detail_route(methods=['get'])
     def run_action(self, request, pk=None):
         """ Запуск действия по задаче. """

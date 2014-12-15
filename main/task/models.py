@@ -16,19 +16,22 @@ class TaskFieldsAccessTypeMixin(ModelFieldsAccessTypeMixin):
     """
 
     def get_field_priority_access_type(self, user):
-        if user.id in (self.author.id, self.manager.id) or user.is_superuser:
+        manager_id = getattr(self.manager, 'pk', None)
+        if user.id in (self.author.id, manager_id) or user.is_superuser:
             return self.FIELD_ACCESS_TYPE_FULL
         else:
             return self.FIELD_ACCESS_TYPE_VIEW
 
     def get_field_status_access_type(self, user):
-        if user.id in (self.author.id, self.manager.id) or user.is_superuser:
+        manager_id = getattr(self.manager, 'pk', None)
+        if user.id in (self.author.id, manager_id) or user.is_superuser:
             return self.FIELD_ACCESS_TYPE_FULL
         else:
             return self.FIELD_ACCESS_TYPE_VIEW
 
     def get_field_performer_access_type(self, user):
-        if user.id in (self.author.id, self.manager.id) or user.is_superuser:
+        manager_id = getattr(self.manager, 'pk', None)
+        if user.id in (self.author.id, manager_id) or user.is_superuser:
             return self.FIELD_ACCESS_TYPE_FULL
         else:
             return self.FIELD_ACCESS_TYPE_VIEW
@@ -380,17 +383,17 @@ class Task(EntityBaseFields, TitleField, DescField,
 
     priority   = models.IntegerField(choices = PRIORITY_CHOICES.items(), verbose_name = u'Срочность', default = 0)
     importance = models.IntegerField(choices = IMPORTANCE_CHOICES.items(), verbose_name = u'Важность', default = 0)
-    author     = models.ForeignKey(Account, verbose_name = u'Автор', related_name = 'task_author')
+    author     = models.ForeignKey('account.Account', verbose_name = u'Автор', related_name = 'task_author')
 
     status = models.CharField(max_length = 30, choices = STATUSES.items(), verbose_name = u'Статус', default = STATUS_WENT_TO_PERFORMER)
 
-    performer       = models.ForeignKey(Account, verbose_name = u'Исполнитель', related_name = 'task_performer', blank = True, null = True)
-    lead_programmer = models.ForeignKey(Account, verbose_name = u'Ведущий разработчик', related_name = 'task_lead_programmer', blank = True, null = True)
-    tester          = models.ForeignKey(Account, verbose_name = u'Тестировщик', related_name = 'task_tester', blank = True, null = True)
-    manager         = models.ForeignKey(Account, verbose_name = u'Менеджер', related_name = 'task_manager', blank = True, null = True)
-    client          = models.ForeignKey(Account, verbose_name = u'Клиент', related_name = 'task_client', blank = True, null = True)
+    performer       = models.ForeignKey('account.Account', verbose_name = u'Исполнитель', related_name = 'task_performer', blank = True, null = True)
+    lead_programmer = models.ForeignKey('account.Account', verbose_name = u'Ведущий разработчик', related_name = 'task_lead_programmer', blank = True, null = True)
+    tester          = models.ForeignKey('account.Account', verbose_name = u'Тестировщик', related_name = 'task_tester', blank = True, null = True)
+    manager         = models.ForeignKey('account.Account', verbose_name = u'Менеджер', related_name = 'task_manager', blank = True, null = True)
+    client          = models.ForeignKey('account.Account', verbose_name = u'Клиент', related_name = 'task_client', blank = True, null = True)
 
-    project    = models.ForeignKey(Project, verbose_name = u'Проект', related_name = 'task_project', blank = True, null = True)
+    project    = models.ForeignKey('project.Project', verbose_name = u'Проект', related_name = 'task_project', blank = True, null = True)
 
     # objects = models.Manager()
 
@@ -403,19 +406,19 @@ class Task(EntityBaseFields, TitleField, DescField,
         Возвращает список ролей указанного пользователя в данной задаче
         """
         roles = []
-        if user.pk == self.performer.pk:
+        if user.pk == getattr(self.performer, 'pk', None):
             roles.append(self.ROLE_PERFORMER)
 
-        if user.pk == self.lead_programmer.pk:
+        if user.pk == getattr(self.lead_programmer, 'pk', None):
             roles.append(self.ROLE_LEAD_PROGRAMMER)
 
-        if user.pk == self.tester.pk:
+        if user.pk == getattr(self.tester, 'pk', None):
             roles.append(self.ROLE_TESTER)
 
-        if user.pk == self.manager.pk:
+        if user.pk == getattr(self.manager, 'pk', None):
             roles.append(self.ROLE_MANAGER)
 
-        if user.pk == self.client.pk:
+        if user.pk == getattr(self.client, 'pk', None):
             roles.append(self.ROLE_CLIENT)
 
         return roles
@@ -429,4 +432,9 @@ class Task(EntityBaseFields, TitleField, DescField,
         method = getattr(self, method_name)
         if callable(method):
             return method(user)
+
+    # def clean(self):
+    #     if getattr(self.project, 'pk', None):
+    #         if not getattr(self.tester)
+
 

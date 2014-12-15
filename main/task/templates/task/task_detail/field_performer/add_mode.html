@@ -1,0 +1,12 @@
+
+{% verbatim %}
+    <label>{{ models.Task.fields_verbose_names.performer }}</label>
+{% endverbatim %}
+<select 
+    {% block input_directives %}
+        ng-model="new_task.performer.value" 
+        ng-options="k as v for (k, v) in models.Task.fields_choices.performer"
+    {% endblock %}
+>
+</select>
+

@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.utils.translation import ugettext as _
-from main.helper.models import *
+from main.helper.models import (
+    EntityBaseManager,
+    EntityBaseFields,
+    TitleAndSlugFields,
+    DescField,
+)
 from main.account.models import Account
 
 class ProjectManager(EntityBaseManager):
@@ -18,7 +23,7 @@ class Project(EntityBaseFields, TitleAndSlugFields, DescField):
     members = models.ManyToManyField(Account, verbose_name = u'Участники', related_name = 'task_memebers', blank = True, null = True)
 
 
-    objects = models.Manager()
+    objects = EntityBaseManager()
 
     class Meta():
         verbose_name = _('Project')

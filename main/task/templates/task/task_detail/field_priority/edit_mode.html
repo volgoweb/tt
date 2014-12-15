@@ -1,19 +1,5 @@
+{% extends "task/task_detail/field_priority/add_mode.html" %}
 
-{% verbatim %}
-    <label>{{ models.Task.fields_verbose_names.priority }}</label>
-    <span>
-        <label 
-            for="form-field-priority__{{ k }}" 
-            class="radio-inline" 
-            ng-repeat="(k, v) in chosen_task.priority.choices"
-        >
-            <input 
-                id="form-field-priority__{{ k }}" 
-                type="radio" 
-                ng-model="chosen_task.priority.value" 
-                value="{{ k }}"
-            />
-            <span class="task-priority task-priority_{{ k }}"></span>
-        </label>
-    </span>
-{% endverbatim %}
+{% block ngrepeat %}
+    ng-repeat="(k, v) in {{ obj_name }}.priority.choices"
+{% endblock %}

@@ -6,14 +6,15 @@ from django.contrib.auth.models import User
 
 from main.helper.models import ModelFieldsAccessTypeMixin
 from main.account.models import Account
+from main.project.models import Project
 from .models import Task
 
 
-class AddTaskChoicesRenderer(JSONRenderer):
-    def render(self, data, accepted_media_type=None, renderer_context=None):
-        assert False
-        response = super(AddTaskChoicesRenderer, self).render(response_data, accepted_media_type, renderer_context)
-        return response_data
+# class AddTaskChoicesRenderer(JSONRenderer):
+#     def render(self, data, accepted_media_type=None, renderer_context=None):
+#         assert False
+#         response = super(AddTaskChoicesRenderer, self).render(response_data, accepted_media_type, renderer_context)
+#         return response_data
 
 
 class ChoicesFieldsMixin(object):
@@ -23,9 +24,11 @@ class ChoicesFieldsMixin(object):
     def from_native(self, data, files=None):
         if data:
             for f in self.Meta.choices_fields:
-                data.update({
-                    f: data.get(f).get('value')
-                })
+                value = data.get(f, {})
+                if value:
+                    data.update({
+                        f: value.get('value', None)
+                    })
         return super(ChoicesFieldsMixin, self).from_native(data, files)
 
 
@@ -34,12 +37,14 @@ class TaskSerializer(ChoicesFieldsMixin, serializers.ModelSerializer):
 
     class Meta():
         model = Task
-        renderer_classes = (AddTaskChoicesRenderer,)
+        # renderer_classes = (AddTaskChoicesRenderer,)
         # fields = ('id', 'title', 'desc', 'priority', 'status', 'performer',)
-        choices_fields = ('priority', 'status', 'performer',)
+        # Поля с выбором значения из словаря {id: title}. 
+        # При сохранении они получают вместо значения словарь {'value': id}
+        choices_fields = ('project', 'priority', 'status', 'performer',)
 
     def default_choices_field_transform(self, obj, value, field_name):
-        access_type = obj.get_field_access_type(field_name, self.context['request'].user)
+        access_type = obj.get_field_access_type(field_name, user=self.context['request'].user)
         trans_value = {
             'access_type': access_type,
         }
@@ -74,7 +79,22 @@ class TaskSerializer(ChoicesFieldsMixin, serializers.ModelSerializer):
             'value': str(value),
             'title': title,
             'choices': users_choices,
-            'access_type': obj.get_field_status_access_type(self.context['request'].user),
+            'access_type': obj.get_field_access_type('performer', user=self.context['request'].user),
+        }
+
+    def transform_project(self, obj, value):
+        try:
+            project = Project.objects.get(pk = value)
+            title = project.title
+        except:
+            title = ''
+        projects = Project.objects.active().only('id', 'title')
+        projects_choices = dict([(p.pk, p.title) for p in projects])
+        return {
+            'value': str(value),
+            'title': title,
+            'choices': projects_choices,
+            'access_type': obj.get_field_access_type('project', user=self.context['request'].user),
         }
 
     def get_actions(self, obj):

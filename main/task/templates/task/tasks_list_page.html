@@ -17,6 +17,13 @@
 
 {% block content %}
   <div class="tasks" ng-app="task" ng-controller="tasksList as c">
+
+    <button
+        class="btn-add-task btn btn-default"
+        ng-click="c.showAddTask()"
+    >Добавить задачу</button>
+    {% include "task/task_add.html" %}
+
     <table class="tasks-list col-md-6">
       <thead>
         <tr>

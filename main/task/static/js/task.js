@@ -6,19 +6,30 @@ app.base_url = '/tasks/';
 app.base_rest_url = app.base_url + 'rest/';
 
 app.controller('tasksList', function($scope, $http) {
-  $http.get(app.base_rest_url).success(function(data) {
-    $scope.tasks = {};
-    $scope.main = main;
-    console.log($scope.main.helper);
+  this.getTasksCollection = function() {
+      $http.get(app.base_rest_url).success(function(data) {
+        $scope.tasks = {};
+        $scope.main = main;
 
-    $.each(data, function(i, el) {
-      $scope.tasks[el.id] = el;
-    });
-  });
+        $.each(data, function(i, el) {
+          $scope.tasks[el.id] = el;
+        });
+      });
+  };
+
+  this.getTasksCollection();
 
   $http.get(app.base_url + 'get-models/').success(function(data) {
     $scope.models = data;
+    console.log($scope.models);
   });
+
+  $scope.new_task = {
+      priority: {
+        value: 0,
+      },
+  };
+  $scope.addTaskFormVisible = false;
 
 
   this.showDetailTask = function(task_id) {
@@ -41,6 +52,28 @@ app.controller('tasksList', function($scope, $http) {
         $scope.tasks[task.id] = data
         $scope.taskDetailForm.$setPristine();
         $scope.chosen_task.view_mode = 'view';
+    });
+  };
+
+
+  this.showAddTask = function() {
+      $scope.addTaskFormVisible = true;
+  };
+
+  this.addTask = function(task) {
+    var that = this;
+    var csrf = global_ajax_csrf.getCookie('csrftoken');
+    $http.defaults.headers.post['X-CSRFToken'] = csrf;
+    $http.defaults.headers.put['X-CSRFToken'] = csrf;
+    // TODO добавить для всех аякс-загрузок заставку-ожидание
+    $http.post(app.base_rest_url, task).success(function(data) {
+        $scope.addTaskFormVisible = false;
+        // TODO разобраться, как обнулять форму
+        // $scope.taskAddForm.$setPristine();
+        $scope.taskAddForm.$dirty = false;
+        $scope.taskAddForm.$pristine = true;
+        $scope.taskAddForm.$submitted = false;
+        that.getTasksCollection();
     });
   };
 

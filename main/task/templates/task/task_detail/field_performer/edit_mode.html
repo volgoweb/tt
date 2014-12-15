@@ -1,10 +1,7 @@
+{% extends "task/task_detail/field_performer/add_mode.html" %}
 
-{% verbatim %}
-    <label>{{ models.Task.fields_verbose_names.performer }}</label>
-    <select 
-        ng-model="chosen_task.performer.value" 
-        ng-options="k as v for (k, v) in chosen_task.performer.choices" 
-        ng-change="c.setModelFieldTitle(chosen_task, 'performer')"
-    >
-    </select>
-{% endverbatim %}
+{% block input_directives %}
+    ng-model="{{ obj_name }}.performer.value" 
+    ng-options="k as v for (k, v) in {{ obj_name }}.performer.choices" 
+    ng-change="c.setModelFieldTitle({{ obj_name }}, 'performer')"
+{% endblock %}
