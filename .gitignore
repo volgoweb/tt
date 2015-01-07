@@ -4,3 +4,5 @@ collectstatic
 .ropeproject
 */.ropeproject
 */*/.ropeproject
+main/static/less/CACHE
+main/static/less/CACHE/*

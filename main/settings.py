@@ -60,7 +60,7 @@ INSTALLED_APPS = (
     'autoslug',
     # 'constance',
     # 'constance.backends.database',
-    'captcha',
+    # 'captcha',
 
     'main.helper',
     'main.theme_framework_dk',

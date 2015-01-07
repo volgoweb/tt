@@ -1,0 +1,9 @@
+django>=1.7
+nodeenv # виртуальное окружение для nodejs
+# nodeenv --python-virtualenv #Use current python virtualenv
+# потом установить через npm пакет less
+compressor
+rest_framework
+easy_thumbnails
+ckeditor
+autoslug
