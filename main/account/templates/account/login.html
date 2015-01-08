@@ -1,11 +1,17 @@
 
 {% extends "page.html" %}
 
+{% block page_title %}Вход{% endblock %}
+
 {% block content %}
+    {{ block.super }}
+
     <div class="row">
-        <form  method="POST" accept-charset="utf-8">
+        <form  method="POST" accept-charset="utf-8" class="login-form">
             {% csrf_token %}
-            {{ form.as_p }}
+            <table>
+                {{ form.as_table }}
+            </table>
             <input type="submit" value="Войти"/>
         </form>
     </div>

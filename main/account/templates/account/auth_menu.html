@@ -1,0 +1,8 @@
+<div class="auth-menu">
+    <span class="auth-menu__prefix">{{ prefix }}</span>
+    <ul class="auth-menu__items">
+        {% for link in items %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
