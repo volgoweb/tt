@@ -28,6 +28,9 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         request.DATA[u'author'] = unicode(request.user.pk)
+        request.DATA[u'status'] = {
+            'value': Task.STATUS_WENT_TO_PERFORMER,
+        }
         return super(TaskViewSet, self).create(request, *args, **kwargs)
 
     @detail_route(methods=['get'])

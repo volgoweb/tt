@@ -28,7 +28,7 @@ class AccountManager(BaseUserManager):
         user = self.create_user(email,
             password = password,
         )
-        user.is_admin = True
+        user.is_superuser = True
         user.save(using = self._db)
         return user
 
@@ -38,7 +38,7 @@ class Account(AbstractBaseUser):
     middle_name = models.CharField(_('middle name'), max_length = 30, blank = True)
     last_name = models.CharField(_('last name'), max_length=30)
     is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     # должность
     job = models.CharField(_('job'), max_length = 50)
     created = models.DateTimeField(_('created'), default=timezone.now)
@@ -76,7 +76,7 @@ class Account(AbstractBaseUser):
     def is_staff(self):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
-        return self.is_admin
+        return self.is_superuser
 
     def get_full_fio(self):
         if self.first_name or self.last_name:

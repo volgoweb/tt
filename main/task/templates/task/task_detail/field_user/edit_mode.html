@@ -1,0 +1,7 @@
+{% extends "task/task_detail/field_user/add_mode.html" %}
+
+{% block input_directives %}
+    ng-model="{{ obj_name }}.{{ field_name }}.value" 
+    ng-options="k as v for (k, v) in {{ obj_name }}.{{ field_name }}.choices" 
+    ng-change="c.setModelFieldTitle({{ obj_name }}, '{{ field_name }}')"
+{% endblock %}

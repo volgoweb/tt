@@ -5,12 +5,6 @@
     ng-show="addTaskFormVisible"
     style="border: 2px solid yellow; padding: 10px;"
 >
-    <div class="task-detail__actions">
-        <button class="btn btn-success" 
-            ng-click="c.addTask(new_task)" 
-        >Сохранить</button>
-    </div>
-
     {# ------- project ------- #}
     <div class="field-edit">
         {% include "task/task_detail/field_project/add_mode.html" with obj_name="new_task" %}
@@ -26,14 +20,12 @@
     </div>
     {% endverbatim %}
 
-    {% verbatim %}
     <div class="field-edit">
-        <label>{{ models.Task.fields_verbose_names.desc }}</label>
+        <label>{% templatetag openvariable %} models.Task.fields_verbose_names.desc {% templatetag closevariable %}</label>
         <span>
             <textarea name="desc" ng-model="new_task.desc"></textarea>
         </span>
     </div>
-    {% endverbatim %}
 
     {# ------- priority ------- #}
     <div class="field-edit">
@@ -41,15 +33,39 @@
     </div>
     {# ------- / priority ------- #}
 
-    {# ------- status ------- #}
-    <div class="field-edit">
-        {% include "task/task_detail/field_status/add_mode.html" with obj_name="new_task" %}
-    </div>
-    {# ------- / status ------- #}
-
     {# ------- performer ------- #}
     <div class="field-edit">
-        {% include "task/task_detail/field_performer/add_mode.html" with obj_name="new_task" %}
+        {% include "task/task_detail/field_user/add_mode.html" with obj_name="new_task" field_name="performer" %}
     </div>
     {# ------- / performer ------- #}
+
+    {# ------- lead_programmer ------- #}
+    <div class="field-edit">
+        {% include "task/task_detail/field_user/add_mode.html" with obj_name="new_task" field_name="lead_programmer" %}
+    </div>
+    {# ------- / lead_programmer ------- #}
+
+    {# ------- tester ------- #}
+    <div class="field-edit">
+        {% include "task/task_detail/field_user/add_mode.html" with obj_name="new_task" field_name="tester" %}
+    </div>
+    {# ------- / tester ------- #}
+
+    {# ------- manager ------- #}
+    <div class="field-edit">
+        {% include "task/task_detail/field_user/add_mode.html" with obj_name="new_task" field_name="manager" %}
+    </div>
+    {# ------- / manager ------- #}
+
+    {# ------- client ------- #}
+    <div class="field-edit">
+        {% include "task/task_detail/field_user/add_mode.html" with obj_name="new_task" field_name="client" %}
+    </div>
+    {# ------- / client ------- #}
+
+    <div class="task-detail__actions">
+        <button class="btn btn-success" 
+            ng-click="c.addTask(new_task)" 
+        >Сохранить</button>
+    </div>
 </form>

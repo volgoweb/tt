@@ -27,7 +27,6 @@
     <table class="tasks-list col-md-6">
       <thead>
         <tr>
-          <th>{% trans "Complete" %}</th>
           <th>Название</th>
           <th>Статус</th>
           <th>Исполнитель</th>
@@ -42,7 +41,6 @@
               class="tasks-list__item {{ chosen_task.id == m.id && 'active' || '' }}" 
               ng-repeat="m in tasks"
             >
-                <td><input type="checkbox" ng-model="m.status.value" ng-change="c.saveTask(m)" ng-true-value="ready" ng-false-value="in_work"/></td>
                 <td ng-click="c.showDetailTask(m.id)"><span class="task-priority task-priority_{{ m.priority.value }}"></span> {{ m.title }}</td>
                 <td ng-click="c.showDetailTask(m.id)">{{ m.status.title }}</td>
                 <td ng-click="c.showDetailTask(m.id)">{{ m.performer.title }}</td>

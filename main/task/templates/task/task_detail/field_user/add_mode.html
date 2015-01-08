@@ -1,0 +1,13 @@
+
+<label>
+    {% templatetag openvariable %}models.Task.fields_verbose_names.{{ field_name }} {% templatetag closevariable %}
+</label>
+
+<select 
+    {% block input_directives %}
+        ng-model="new_task.{{ field_name }}.value" 
+        ng-options="k as v for (k, v) in models.Task.fields_choices.{{ field_name }}"
+    {% endblock %}
+>
+</select>
+

@@ -30,11 +30,27 @@ class TaskFieldsAccessTypeMixin(ModelFieldsAccessTypeMixin):
             return self.FIELD_ACCESS_TYPE_VIEW
 
     def get_field_performer_access_type(self, user):
-        manager_id = getattr(self.manager, 'pk', None)
-        if user.id in (self.author.id, manager_id) or user.is_superuser:
+        roles = self.get_user_roles(user)
+        if roles & set([self.ROLE_MANAGER, self.ROLE_LEAD_PROGRAMMER, self.ROLE_SUPERUSER]):
             return self.FIELD_ACCESS_TYPE_FULL
         else:
             return self.FIELD_ACCESS_TYPE_VIEW
+
+    def get_field_lead_programmer_access_type(self, user):
+        roles = self.get_user_roles(user)
+        if roles & set([self.ROLE_MANAGER, self.ROLE_SUPERUSER]):
+            return self.FIELD_ACCESS_TYPE_FULL
+        else:
+            return self.FIELD_ACCESS_TYPE_VIEW
+
+    def get_field_tester_access_type(self, user):
+        return self.get_field_performer_access_type(user)
+
+    def get_field_manager_access_type(self, user):
+        return self.get_field_lead_programmer_access_type(user)
+
+    def get_field_client_access_type(self, user):
+        return self.get_field_lead_programmer_access_type(user)
 
 
 class TaskActionsMixin(object):
@@ -322,30 +338,30 @@ class Task(EntityBaseFields, TitleField, DescField,
 
     # использую константы для всех статусов, чтобы свести к минимуму ошибки
     # опечаток использования статусов
-    STATUS_WENT_TO_PERFORMER  = 'went_to_performer'
-    STATUS_PERFORMER_REJECTED = 'performer_rejected'
-    STATUS_WAIT_PERFORMANCE   = 'wait_performance'
-    STATUS_PERFORMANCE        = 'performance'
-    STATUS_PERFORMANCE_PAUSE  = 'performance_pause'
-    STATUS_PERFORMED          = 'performed'
+    STATUS_WENT_TO_PERFORMER  = 11
+    STATUS_PERFORMER_REJECTED = 12
+    STATUS_WAIT_PERFORMANCE   = 13
+    STATUS_PERFORMANCE        = 14
+    STATUS_PERFORMANCE_PAUSE  = 15
+    STATUS_PERFORMED          = 16
 
-    STATUS_WENT_TO_LEAD_PROGRAMMER  = 'went_to_lead_programmer'
-    STATUS_WAIT_CODE_REVIEW         = 'wait_code_review'
-    STATUS_CODE_REVIEW              = 'code_review'
-    STATUS_LEAD_PROGRAMMER_ACCEPTED = 'lead_programmer_accepted'
+    STATUS_WENT_TO_LEAD_PROGRAMMER  = 21
+    STATUS_WAIT_CODE_REVIEW         = 22
+    STATUS_CODE_REVIEW              = 23
+    STATUS_LEAD_PROGRAMMER_ACCEPTED = 24
 
-    STATUS_WENT_TO_TESTING = 'went_to_testing'
-    STATUS_TESTER_REJECTED = 'tester_rejected'
-    STATUS_WAIT_TESTING    = 'wait_testing'
-    STATUS_TESTING         = 'testing'
-    STATUS_TESTER_ACCEPTED = 'tester_accepted'
+    STATUS_WENT_TO_TESTING = 31
+    STATUS_TESTER_REJECTED = 32
+    STATUS_WAIT_TESTING    = 33
+    STATUS_TESTING         = 34
+    STATUS_TESTER_ACCEPTED = 35
 
-    STATUS_WENT_TO_CLIENT       = 'went_to_client'
-    STATUS_WAIT_CLIENT_CHECKING = 'wait_client_checking'
-    STATUS_CLIENT_CHECKING      = 'client_checking'
-    STATUS_CLIENT_ACCEPTED      = 'client_accepted'
-    STATUS_CLIENT_REJECTED      = 'client_rejected'
-    STATUS_CLOSED               = 'closed'
+    STATUS_WENT_TO_CLIENT       = 41
+    STATUS_WAIT_CLIENT_CHECKING = 42
+    STATUS_CLIENT_CHECKING      = 43
+    STATUS_CLIENT_ACCEPTED      = 44
+    STATUS_CLIENT_REJECTED      = 45
+    STATUS_CLOSED               = 46
 
     STATUSES = {
         STATUS_WENT_TO_PERFORMER  : u'Отправлена исполнителю',
@@ -374,6 +390,7 @@ class Task(EntityBaseFields, TitleField, DescField,
     }
 
     # роли пользователя в данной задаче
+    ROLE_SUPERUSER       = 'superuser'
     ROLE_AUTHOR          = 'author'
     ROLE_PERFORMER       = 'performer'
     ROLE_LEAD_PROGRAMMER = 'lead_programmer'
@@ -385,7 +402,7 @@ class Task(EntityBaseFields, TitleField, DescField,
     importance = models.IntegerField(choices = IMPORTANCE_CHOICES.items(), verbose_name = u'Важность', default = 0)
     author     = models.ForeignKey('account.Account', verbose_name = u'Автор', related_name = 'task_author')
 
-    status = models.CharField(max_length = 30, choices = STATUSES.items(), verbose_name = u'Статус', default = STATUS_WENT_TO_PERFORMER)
+    status = models.IntegerField(max_length = 30, choices = STATUSES.items(), verbose_name = u'Статус', default = STATUS_WENT_TO_PERFORMER)
 
     performer       = models.ForeignKey('account.Account', verbose_name = u'Исполнитель', related_name = 'task_performer', blank = True, null = True)
     lead_programmer = models.ForeignKey('account.Account', verbose_name = u'Ведущий разработчик', related_name = 'task_lead_programmer', blank = True, null = True)
@@ -406,6 +423,9 @@ class Task(EntityBaseFields, TitleField, DescField,
         Возвращает список ролей указанного пользователя в данной задаче
         """
         roles = []
+        if user.is_superuser:
+            roles.append(self.ROLE_SUPERUSER)
+
         if user.pk == getattr(self.performer, 'pk', None):
             roles.append(self.ROLE_PERFORMER)
 
@@ -421,7 +441,7 @@ class Task(EntityBaseFields, TitleField, DescField,
         if user.pk == getattr(self.client, 'pk', None):
             roles.append(self.ROLE_CLIENT)
 
-        return roles
+        return set(roles)
 
     def get_field_available_choices(self, user, field_name):
         """
