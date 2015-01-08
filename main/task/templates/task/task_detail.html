@@ -13,7 +13,10 @@
         >Сохранить</button>
 
     {% verbatim %}
-        <div class="actions-container" ng-repeat="(act_name, act_title) in chosen_task.actions">
+        <div 
+            class="actions-container" ng-repeat="(act_name, act_title) in chosen_task.actions"
+            ng-if="chosen_task.view_mode == 'view'"
+        >
             <button class="btn-action btn-action_{{act_name}} btn btn-success" ng-click="c.runAction(chosen_task.id, act_name)">{{act_title}}</button>
         </div>
     {% endverbatim %}
@@ -99,7 +102,9 @@
     </div>
     <div 
         class="field-view" 
-        ng-if="chosen_task.tester.access_type != main.helper.FIELD_ACCESS_TYPE_DENY && chosen_task.view_mode == 'view'"
+        ng-if="chosen_task.tester.access_type != main.helper.FIELD_ACCESS_TYPE_DENY
+        && chosen_task.view_mode == 'view'
+        && chosen_task.tester.value"
     >
         {% include "task/task_detail/field_user/view_mode.html" with field_name="tester" %}
     </div>
@@ -114,7 +119,9 @@
     </div>
     <div 
         class="field-view" 
-        ng-if="chosen_task.manager.access_type != main.helper.FIELD_ACCESS_TYPE_DENY && chosen_task.view_mode == 'view'"
+        ng-if="chosen_task.manager.access_type != main.helper.FIELD_ACCESS_TYPE_DENY
+        && chosen_task.view_mode == 'view'
+        && chosen_task.manager.value"
     >
         {% include "task/task_detail/field_user/view_mode.html" with field_name="manager" %}
     </div>
@@ -129,7 +136,9 @@
     </div>
     <div 
         class="field-view" 
-        ng-if="chosen_task.client.access_type != main.helper.FIELD_ACCESS_TYPE_DENY && chosen_task.view_mode == 'view'"
+        ng-if="chosen_task.client.access_type != main.helper.FIELD_ACCESS_TYPE_DENY
+        && chosen_task.view_mode == 'view'
+        && chosen_task.client.value"
     >
         {% include "task/task_detail/field_user/view_mode.html" with field_name="client" %}
     </div>

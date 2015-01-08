@@ -1,0 +1,44 @@
+[
+    {
+        "model": "account.Account",
+        "fields": {
+            "email": "proger@test.test",
+            "password": "pbkdf2_sha256$12000$LG0tGf5EGe2s$a1G03CzxnERY5OMDesOv80tHxlq94uC3tSUW+itFzKc="
+        }
+    },
+    {
+        "model": "account.Account",
+        "fields": {
+            "email": "proger2@test.test",
+            "password": "pbkdf2_sha256$12000$AW18dmaiImAG$aNKJVhYB20ryfIBbvpgEaZISK3vpFTn9lTbmi7DdhtA="
+        }
+    },
+    {
+        "model": "account.Account",
+        "fields": {
+            "email": "teamlead@test.test",
+            "password": "pbkdf2_sha256$12000$bWVGHM3WmVFG$wDaS99BBxAAXowQsyukutVRKjmiR2Nve3vvqxo/l9QQ="
+        }
+    },
+    {
+        "model": "account.Account",
+        "fields": {
+            "email": "tester@test.test",
+            "password": "pbkdf2_sha256$12000$OqgM4te2d4jO$6lhAVqFZRX9ZeI5MYNzt63tMePMNuPXFqT2d1Tpj3Ew="
+        }
+    },
+    {
+        "model": "account.Account",
+        "fields": {
+            "email": "manager@test.test",
+            "password": "pbkdf2_sha256$12000$NM31XQ8Pxhuj$5Mm0HBVMsyMKH/AdpQo+WXittIHfG81Yqc3oUaP2ZJ4="
+        }
+    },
+    {
+        "model": "account.Account",
+        "fields": {
+            "email": "client@test.test",
+            "password": "pbkdf2_sha256$12000$nHCh7RmMa4L3$jvc0GfZZPF8IFaET8vLRHdtPy4ijzRBNJ9AYzIPn5cg="
+        }
+    }
+]
