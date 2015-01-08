@@ -1,0 +1,25 @@
+
+{% verbatim %}
+<label>{{ models.Task.fields_verbose_names.importance }}</label>
+{% endverbatim %}
+<span>
+    <label 
+        {% verbatim %}
+        for="form-field-importance__{{ k }}" 
+        class="radio-inline" 
+        {% endverbatim %}
+        {% block ngrepeat %}
+        ng-repeat="(k, v) in {{ obj_name }}.importance.choices"
+        {% endblock %}
+    >
+        <input 
+            {% verbatim %}
+            id="form-field-importance__{{ k }}" 
+            type="radio" 
+            value="{{ k }}"
+            {% endverbatim %}
+            ng-model="{{ obj_name }}.importance.value" 
+        />
+        <span class="task-importance task-importance_{% templatetag openvariable %} k {% templatetag closevariable %}">{% templatetag openvariable %} v {% templatetag closevariable %}</span>
+    </label>
+</span>

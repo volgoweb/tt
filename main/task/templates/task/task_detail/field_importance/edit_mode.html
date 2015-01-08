@@ -1,0 +1,5 @@
+{% extends "task/task_detail/field_importance/add_mode.html" %}
+
+{% block ngrepeat %}
+    ng-repeat="(k, v) in {{ obj_name }}.importance.choices"
+{% endblock %}

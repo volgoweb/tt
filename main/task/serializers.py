@@ -10,40 +10,39 @@ from main.project.models import Project
 from .models import Task
 
 
-class ChoicesFieldsMixin(object):
-    '''
-    Перед сериализацией вместо значения формирует словарь, содержащий словарь возможных значений, текущий ключ и название значения.
-    '''
+class BaseSerializer(object):
+    """
+    При сериализации вместо значения поля формируется словарь
+    с различными параметрами поля (тип доступа, человекопонятное значение, ...)
+    """
+    def default_field_transform(self, obj, value, field_name):
+        access_type = obj.get_field_access_type(field_name, user=self.context['request'].user)
+        trans_value = {
+            'access_type': access_type,
+        }
+        if access_type != ModelFieldsAccessTypeMixin.FIELD_ACCESS_TYPE_DENY:
+            trans_value.update({
+                'value': value,
+                'title': value,
+            })
+        return trans_value
+
     def from_native(self, data, files=None):
         if data:
-            for f in self.Meta.choices_fields:
+            for f in self.get_fields().keys():
+                if f not in data:
+                    continue
                 value = data.get(f, {})
-                if value:
+                if isinstance(value, dict):
                     data.update({
                         f: value.get('value', None)
                     })
-        return super(ChoicesFieldsMixin, self).from_native(data, files)
-
-
-class TaskSerializer(ChoicesFieldsMixin, serializers.ModelSerializer):
-    actions = serializers.SerializerMethodField('get_actions')
-
-    class Meta():
-        model = Task
-        # Поля с выбором значения из словаря {id: title}. 
-        # При сохранении они получают вместо значения словарь {'value': id}
-        choices_fields = (
-            'project',
-            'priority',
-            'status',
-            'performer',
-            'lead_programmer',
-            'tester',
-            'manager',
-            'client',
-        )
+        return super(BaseSerializer, self).from_native(data, files)
 
     def default_choices_field_transform(self, obj, value, field_name):
+        '''
+        Перед сериализацией вместо значения формирует словарь, содержащий словарь возможных значений, текущий ключ и название значения.
+        '''
         access_type = obj.get_field_access_type(field_name, user=self.context['request'].user)
         trans_value = {
             'access_type': access_type,
@@ -61,8 +60,34 @@ class TaskSerializer(ChoicesFieldsMixin, serializers.ModelSerializer):
             })
         return trans_value
 
+
+class TaskSerializer(BaseSerializer, serializers.ModelSerializer):
+    actions = serializers.SerializerMethodField('get_actions')
+
+    class Meta():
+        model = Task
+        # Поля с выбором значения из словаря {id: title}. 
+        # При сохранении они получают вместо значения словарь {'value': id}
+        choices_fields = (
+            'project',
+            'priority',
+            'importance',
+            'status',
+            'performer',
+            'lead_programmer',
+            'tester',
+            'manager',
+            'client',
+        )
+
+    def transform_desc(self, obj, value):
+        return self.default_field_transform(obj, value, 'desc')
+
     def transform_priority(self, obj, value):
         return self.default_choices_field_transform(obj, value, 'priority')
+
+    def transform_importance(self, obj, value):
+        return self.default_choices_field_transform(obj, value, 'importance')
 
     def transform_status(self, obj, value):
         return self.default_choices_field_transform(obj, value, 'status')

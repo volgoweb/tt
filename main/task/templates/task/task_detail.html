@@ -24,27 +24,69 @@
 
     {% verbatim %}
     <h2>{{ chosen_task.title }}</h2>
-
-    <div>
-        <label>{{ models.Task.fields_verbose_names.desc }}</label>
-        <span>{{ chosen_task.desc }}</span>
-    </div>
     {% endverbatim %}
+
+    {# <div> #}
+    {#     <label>{{ models.Task.fields_verbose_names.desc }}</label> #}
+    {#     <span>{{ chosen_task.desc }}</span> #}
+    {# </div> #}
+
+    {# ------- desc ------- #}
+    <div 
+        class="field-edit" 
+        ng-if="chosen_task.desc.access_type == main.helper.FIELD_ACCESS_TYPE_FULL 
+        && chosen_task.view_mode == 'edit'"
+    >
+        {% verbatim %}
+        <label>{{ models.Task.fields_verbose_names.desc }}</label>
+        <textarea ng-model="chosen_task.desc.value"></textarea>
+        {% endverbatim %}
+    </div>
+    <div 
+        class="field-view" 
+        ng-if="chosen_task.desc.access_type != main.helper.FIELD_ACCESS_TYPE_DENY 
+        && chosen_task.view_mode == 'view'"
+    >
+        {% verbatim %}
+        <label>{{ models.Task.fields_verbose_names.desc }}</label>
+        <span>{{ chosen_task.desc.value }}</span>
+        {% endverbatim %}
+    </div>
+    {# ------- / desc ------- #}
 
     {# ------- priority ------- #}
     <div 
         class="field-edit" 
-        ng-if="chosen_task.priority.access_type == main.helper.FIELD_ACCESS_TYPE_FULL && chosen_task.view_mode == 'edit'"
+        ng-if="chosen_task.priority.access_type == main.helper.FIELD_ACCESS_TYPE_FULL 
+        && chosen_task.view_mode == 'edit'"
     >
         {% include "task/task_detail/field_priority/edit_mode.html" with obj_name="chosen_task" %}
     </div>
     <div 
         class="field-view" 
-        ng-if="chosen_task.priority.access_type != main.helper.FIELD_ACCESS_TYPE_DENY && chosen_task.view_mode == 'view'"
+        ng-if="chosen_task.priority.access_type != main.helper.FIELD_ACCESS_TYPE_DENY 
+        && chosen_task.view_mode == 'view'"
     >
         {% include "task/task_detail/field_priority/view_mode.html" %}
     </div>
     {# ------- / priority ------- #}
+
+    {# ------- importance ------- #}
+    <div 
+        class="field-edit" 
+        ng-if="chosen_task.importance.access_type == main.helper.FIELD_ACCESS_TYPE_FULL 
+        && chosen_task.view_mode == 'edit'"
+    >
+        {% include "task/task_detail/field_importance/edit_mode.html" with obj_name="chosen_task" %}
+    </div>
+    <div 
+        class="field-view" 
+        ng-if="chosen_task.importance.access_type != main.helper.FIELD_ACCESS_TYPE_DENY 
+        && chosen_task.view_mode == 'view'"
+    >
+        {% include "task/task_detail/field_importance/view_mode.html" %}
+    </div>
+    {# ------- / importance ------- #}
 
     {# ------- status ------- #}
     {# <div  #}
@@ -64,13 +106,15 @@
     {# ------- performer ------- #}
     <div 
         class="field-edit" 
-        ng-if="chosen_task.performer.access_type == main.helper.FIELD_ACCESS_TYPE_FULL && chosen_task.view_mode == 'edit'"
+        ng-if="chosen_task.performer.access_type == main.helper.FIELD_ACCESS_TYPE_FULL 
+        && chosen_task.view_mode == 'edit'"
     >
         {% include "task/task_detail/field_user/edit_mode.html" with obj_name="chosen_task" field_name="performer" %}
     </div>
     <div 
         class="field-view" 
-        ng-if="chosen_task.performer.access_type != main.helper.FIELD_ACCESS_TYPE_DENY && chosen_task.view_mode == 'view'"
+        ng-if="chosen_task.performer.access_type != main.helper.FIELD_ACCESS_TYPE_DENY 
+        && chosen_task.view_mode == 'view'"
     >
         {% include "task/task_detail/field_user/view_mode.html" with field_name="performer" %}
     </div>
@@ -79,7 +123,8 @@
     {# ------- lead_programmer ------- #}
     <div 
         class="field-edit" 
-        ng-if="chosen_task.lead_programmer.access_type == main.helper.FIELD_ACCESS_TYPE_FULL && chosen_task.view_mode == 'edit'"
+        ng-if="chosen_task.lead_programmer.access_type == main.helper.FIELD_ACCESS_TYPE_FULL 
+        && chosen_task.view_mode == 'edit'"
     >
         {% include "task/task_detail/field_user/edit_mode.html" with obj_name="chosen_task" field_name="lead_programmer" %}
     </div>

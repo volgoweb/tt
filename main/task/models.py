@@ -15,30 +15,28 @@ class TaskFieldsAccessTypeMixin(ModelFieldsAccessTypeMixin):
     Определение и получение прав на каждое поле задачи.
     """
 
-    def get_field_priority_access_type(self, user):
-        manager_id = getattr(self.manager, 'pk', None)
-        if user.id in (self.author.id, manager_id) or user.is_superuser:
+    def get_field_desc_access_type(self, user):
+        roles = self.get_user_roles(user)
+        if roles & set([self.ROLE_AUTHOR, self.ROLE_MANAGER, self.ROLE_LEAD_PROGRAMMER, self.ROLE_SUPERUSER]):
             return self.FIELD_ACCESS_TYPE_FULL
         else:
             return self.FIELD_ACCESS_TYPE_VIEW
+
+    def get_field_priority_access_type(self, user):
+        return self.get_field_desc_access_type(user)
+
+    def get_field_importance_access_type(self, user):
+        return self.get_field_desc_access_type(user)
 
     def get_field_status_access_type(self, user):
-        manager_id = getattr(self.manager, 'pk', None)
-        if user.id in (self.author.id, manager_id) or user.is_superuser:
-            return self.FIELD_ACCESS_TYPE_FULL
-        else:
-            return self.FIELD_ACCESS_TYPE_VIEW
+        return self.get_field_desc_access_type(user)
 
     def get_field_performer_access_type(self, user):
-        roles = self.get_user_roles(user)
-        if roles & set([self.ROLE_MANAGER, self.ROLE_LEAD_PROGRAMMER, self.ROLE_SUPERUSER]):
-            return self.FIELD_ACCESS_TYPE_FULL
-        else:
-            return self.FIELD_ACCESS_TYPE_VIEW
+        return self.get_field_desc_access_type(user)
 
     def get_field_lead_programmer_access_type(self, user):
         roles = self.get_user_roles(user)
-        if roles & set([self.ROLE_MANAGER, self.ROLE_SUPERUSER]):
+        if roles & set([self.ROLE_AUTHOR, self.ROLE_MANAGER, self.ROLE_SUPERUSER]):
             return self.FIELD_ACCESS_TYPE_FULL
         else:
             return self.FIELD_ACCESS_TYPE_VIEW
@@ -452,9 +450,5 @@ class Task(EntityBaseFields, TitleField, DescField,
         method = getattr(self, method_name)
         if callable(method):
             return method(user)
-
-    # def clean(self):
-    #     if getattr(self.project, 'pk', None):
-    #         if not getattr(self.tester)
 
 

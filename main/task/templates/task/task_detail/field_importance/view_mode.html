@@ -1,0 +1,5 @@
+
+{% verbatim %}
+    <label>{{ models.Task.fields_verbose_names.importance }}</label>
+    <span class="task-importance task-importance_{{ chosen_task.importance.value }}">{{ chosen_task.importance.title }}</span>
+{% endverbatim %}
