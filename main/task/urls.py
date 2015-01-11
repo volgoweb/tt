@@ -14,6 +14,6 @@ router.register(r'', TaskViewSet)
 
 urlpatterns = patterns('',
     url(r'^$', login_required(TaskMainPage.as_view()), name='main_page'),
-    url(r'^get-models/$', TaskModelsInfoView.as_view(), name='get_models'),
+    url(r'^get-models/$', login_required(TaskModelsInfoView.as_view()), name='get_models'),
     url(r'^rest', include(router.urls), name='rest'),
 )

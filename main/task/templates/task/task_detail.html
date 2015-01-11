@@ -2,6 +2,10 @@
 <form class="tasks__task-detail" name="taskDetailForm" ng-show="chosen_task">
     <div class="task-detail__actions">
         <button class="btn btn-default" 
+            ng-click="c.closeDetailTask()" 
+        >X</button>
+
+        <button class="btn btn-default" 
             ng-click="chosen_task.view_mode = 'edit'" 
             ng-show="chosen_task.view_mode == 'view'"
         >Редактировать</button>
@@ -11,7 +15,6 @@
             ng-disabled="taskDetailForm.$pristine"
             ng-show="chosen_task.view_mode == 'edit'"
         >Сохранить</button>
-
     {% verbatim %}
         <div 
             class="actions-container" ng-repeat="(act_name, act_title) in chosen_task.actions"

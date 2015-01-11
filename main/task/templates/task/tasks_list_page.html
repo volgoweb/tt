@@ -17,6 +17,27 @@
 
 {% block content %}
   <div class="tasks" ng-app="task" ng-controller="tasksList as c">
+    {% verbatim %}
+        <button
+            class="btn-wait-reaction-tasks btn btn-primary {{ active_tasks_list == 'wait_reaction' && 'active' || '' }}"
+            ng-click="c.showTasksList('wait_reaction')"
+        >Ожидают реакции <span class="badge">{{ wait_reaction_count }}</span></button>
+
+        <button
+            class="btn-my-in-work-tasks btn btn-primary {{ active_tasks_list == 'my_in_work' && 'active' || '' }}"
+            ng-click="c.showTasksList('my_in_work')"
+        >Мои в работе <span class="badge">{{ my_in_work_count }}</span></button>
+
+        <button
+            class="btn-in-queue-tasks btn btn-primary {{ active_tasks_list == 'in_queue' && 'active' || '' }}"
+            ng-click="c.showTasksList('in_queue')"
+        >В очереди <span class="badge">{{ in_queue_count }}</span></button>
+
+        <button
+            class="btn-all-tasks btn btn-primary {{ active_tasks_list == 'all' && 'active' || '' }}"
+            ng-click="c.showTasksList('all')"
+        >Все <span class="badge">{{ all_count }}</span></button>
+    {% endverbatim %}
 
     <button
         class="btn-add-task btn btn-default"

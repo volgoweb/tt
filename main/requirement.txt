@@ -1,4 +1,5 @@
 django>=1.7
+django-extensions
 nodeenv # виртуальное окружение для nodejs
 # nodeenv --python-virtualenv #Use current python virtualenv
 # потом установить через npm пакет less

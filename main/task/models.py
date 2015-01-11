@@ -3,11 +3,14 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 from main.helper.models import *
 from main.helper.models import ModelFieldsAccessTypeMixin
 from main.account.models import Account
 from main.project.models import Project
+from .collections import TaskCollectionsFabric
 
 
 class TaskFieldsAccessTypeMixin(ModelFieldsAccessTypeMixin):
@@ -56,6 +59,7 @@ class TaskActionsMixin(object):
     ACTION_REJECT_PERFORM               = 'reject_perform'
     ACTION_ADD_TO_PERFORMANCE_QUEUE     = 'add_to_performance_queue'
     ACTION_START_PERFORMANCE            = 'start_performance'
+    ACTION_PAUSE_PERFORMANCE            = 'pause_performance'
     ACTION_MARK_AS_PERFORMED            = 'mark_as_performed'
     ACTION_SEND_TO_LEAD_PROGRAMMER      = 'send_to_lead_programmer'
     ACTION_ADD_TO_CODE_REVIEW_QUEUE     = 'add_to_code_review_queue'
@@ -77,6 +81,7 @@ class TaskActionsMixin(object):
         ACTION_REJECT_PERFORM               : u'Отказаться выполнять',
         ACTION_ADD_TO_PERFORMANCE_QUEUE     : u'В очередь',
         ACTION_START_PERFORMANCE            : u'Начать выполнение',
+        ACTION_PAUSE_PERFORMANCE            : u'Пауза выполнения',
         ACTION_MARK_AS_PERFORMED            : u'Пометить как выполненное',
         ACTION_SEND_TO_LEAD_PROGRAMMER      : u'Отправить тимлиду',
         ACTION_ADD_TO_CODE_REVIEW_QUEUE     : u'В очередь',
@@ -141,7 +146,19 @@ class TaskActionsMixin(object):
             return True
 
     def has_action_start_performance(self, user, roles):
-        if self.ROLE_PERFORMER in roles and self.status == self.STATUS_WENT_TO_PERFORMER:
+        if self.ROLE_PERFORMER in roles \
+        and self.status in (
+                self.STATUS_WENT_TO_PERFORMER,
+                self.STATUS_WAIT_PERFORMANCE,
+                self.STATUS_PERFORMANCE_PAUSE,
+        ):
+            return True
+
+    def has_action_pause_performance(self, user, roles):
+        if self.ROLE_PERFORMER in roles \
+        and self.status in (
+                self.STATUS_PERFORMANCE,
+        ):
             return True
 
     def has_action_mark_as_performed(self, user, roles):
@@ -245,6 +262,10 @@ class TaskActionsMixin(object):
 
     def action_start_performance(self, user):
         self.status = self.STATUS_PERFORMANCE
+        self.save()
+
+    def action_pause_performance(self, user):
+        self.status = self.STATUS_PERFORMANCE_PAUSE
         self.save()
 
     def action_mark_as_performed(self, user):
@@ -452,3 +473,12 @@ class Task(EntityBaseFields, TitleField, DescField,
             return method(user)
 
 
+@receiver(post_save, sender=Task)
+def task_post_save(sender, instance, *args, **kwargs):
+    collections_fabric = TaskCollectionsFabric(instance)
+    # добавляем задачу в коллекции, которым подходит данная задача по свойствам
+    for c in collections_fabric.get_appropriate_collections():
+        c.add_item(instance.pk)
+    # исключаем задачу из коллекций, которым данная задача не подходит по свойствам
+    for c in collections_fabric.get_inappropriate_collections():
+        c.delete_item(instance.pk)
