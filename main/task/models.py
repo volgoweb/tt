@@ -472,6 +472,27 @@ class Task(EntityBaseFields, TitleField, DescField,
         if callable(method):
             return method(user)
 
+    def get_members(self, only_ids=False):
+        """
+        Возвращает всех пользователей, которые учавствуют в работе над задачей.
+        """
+        members = []
+        if self.performer:
+            members.append(self.performer)
+        if self.lead_programmer:
+            members.append(self.lead_programmer)
+        if self.tester:
+            members.append(self.tester)
+        if self.manager:
+            members.append(self.manager)
+        if self.client:
+            members.append(self.client)
+
+        if only_ids:
+            return [u.id for u in members]
+        else:
+            return members
+
 
 @receiver(post_save, sender=Task)
 def task_post_save(sender, instance, *args, **kwargs):
