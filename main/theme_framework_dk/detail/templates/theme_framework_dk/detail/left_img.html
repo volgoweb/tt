@@ -1,0 +1,15 @@
+<div class="item-detail item-detail_left-img">
+    <div class="item-detail__img pull-left">
+        <img src="{{ item.get_main_image.url }}"/>
+    </div>
+
+    {% if item_head_template %}
+        <div class="item-detail__head">
+            {% include item_head_template %}
+        </div>
+    {% endif %}
+
+    <div class="item-detail__body">
+        {% include item_body_template %}
+    </div>
+</div>

@@ -1,0 +1,10 @@
+{% load staticfiles %}
+
+<link href="{% static "theme_framework_dk/fotorama/fotorama.css" %}" rel="stylesheet">
+<script src="{% static "theme_framework_dk/fotorama/fotorama.js" %}"></script>
+
+<div class="slider-fotorama fotorama" data-width="{{ fotorama_width }}" data-ratio="{{ fotorama_ratio }}" data-max-width="{{ fotorama_max_width }}">
+    {% for img in images %}
+        <img src="{{ img.url }}">
+    {% endfor %}
+</div>

@@ -1,0 +1,7 @@
+
+<script>
+    main.helper = {};
+    {% for key, value in constants.iteritems %}
+    main.helper.{{ key }} = '{{ value }}';
+    {% endfor %}
+</script>

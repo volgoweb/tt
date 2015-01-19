@@ -1,0 +1,8 @@
+
+<div class="list-grid {{ list_class }} row">
+    {% for item in items %}
+        <div class="list-grid__item {{ item_class }} col-xs-{{ 12 }} col-sm-{{ 12 }} col-md-{{ cols }} col-lg-{{ cols }}">
+            {% include item_template with item=item item_class=item_class item_head_template=item_head_template item_body_template=item_body_template %}
+        </div>
+    {% endfor %}
+</div>

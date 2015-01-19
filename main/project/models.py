@@ -21,6 +21,8 @@ class Project(EntityBaseFields, TitleAndSlugFields, DescField):
     clients = models.ManyToManyField(Account, verbose_name = u'Клиенты', related_name = 'task_clients', blank = True, null = True)
     designers = models.ManyToManyField(Account, verbose_name = u'Дизайнеры', related_name = 'task_designers', blank = True, null = True)
     members = models.ManyToManyField(Account, verbose_name = u'Участники', related_name = 'task_memebers', blank = True, null = True)
+    last_release = models.ForeignKey('release.Release', related_name = 'project_last_release', verbose_name = u'Предыдущий релиз')
+    next_release = models.ForeignKey('release.Release', related_name = 'project_next_release', verbose_name = u'Следующий релиз')
 
 
     objects = EntityBaseManager()

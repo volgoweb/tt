@@ -421,7 +421,7 @@ class Task(EntityBaseFields, TitleField, DescField,
     importance = models.IntegerField(choices = IMPORTANCE_CHOICES.items(), verbose_name = u'Важность', default = 0)
     author     = models.ForeignKey('account.Account', verbose_name = u'Автор', related_name = 'task_author')
 
-    status = models.IntegerField(max_length = 30, choices = STATUSES.items(), verbose_name = u'Статус', default = STATUS_WENT_TO_PERFORMER)
+    status = models.IntegerField(choices = STATUSES.items(), verbose_name = u'Статус', default = STATUS_WENT_TO_PERFORMER)
 
     performer       = models.ForeignKey('account.Account', verbose_name = u'Исполнитель', related_name = 'task_performer', blank = True, null = True)
     lead_programmer = models.ForeignKey('account.Account', verbose_name = u'Ведущий разработчик', related_name = 'task_lead_programmer', blank = True, null = True)

@@ -1,0 +1,18 @@
+
+{# Отображение поля модели или формы или чего-либо еще. #}
+{# field_class_common - css класс, одинаковый для всех полей в форме или модели. Например, filters-form__item #}
+{# field_class_personal - css класс, четко определяющий данное поле. Например, filters-form__price #}
+{% extends "theme_framework_dk/field/div_table_row.html" %}
+
+{% block field_div_table_row_classes %} {{ block.super }} div-table-row_range {% endblock %}
+
+{% block field_div_table_row_value %}
+  <div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      {% include "theme_framework_dk/field/classic_inline.html" with label=label1  value=value1 %}
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      {% include "theme_framework_dk/field/classic_inline.html" with label=label2  value=value2 %}
+    </div>
+  </div>
+{% endblock %}

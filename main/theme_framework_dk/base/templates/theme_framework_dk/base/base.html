@@ -1,0 +1,22 @@
+{% load staticfiles %}
+{% load admin_static %}
+
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <title>{% block html_head_title %}{% endblock %}</title>
+
+        {% block scripts %}
+            <script type="text/javascript" src="{% static 'js/jquery-1.9.1.min.js' %}"></script>
+            <script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+            <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+        {% endblock %}
+        
+    </head>
+    <body>
+        <div class="container">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

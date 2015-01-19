@@ -1,0 +1,14 @@
+
+{# Отображение поля модели или формы или чего-либо еще. #}
+{# field_class_common - css класс, одинаковый для всех полей в форме или модели. Например, filters-form__item #}
+{# field_class_personal - css класс, четко определяющий данное поле. Например, filters-form__price #}
+
+<div class="{% block field_div_table_row_classes %}field field_div-table-row {{ field_classes_common }} row{% endblock %}">
+    <label 
+        class="field__label {{ field_classes_common }} {% if field_class_personal %}{{ field_class_personal }}__label {% endif %} col-xs-12 col-sm-6 col-md-6 col-lg-6"
+    >{{ label }}:</label> 
+    <span 
+        class="field__value  {{ field_classes_common }} {% if field_class_personal %}{{ field_class_personal }}__value {% endif %} col-xs-12 col-sm-6 col-md-6 col-lg-6"
+    >{% block field_div_table_row_value %}{{ value }}{% endblock %}</span>
+</div>
+

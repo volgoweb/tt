@@ -1,0 +1,22 @@
+{% load staticfiles %}
+
+{# <link rel="stylesheet" type="text/less" media="all" href="{% static "less/all_centered__img_top.less" %}" /> #}
+
+
+<div class="item-detail item-detail_all-centered-img-top text-center">
+    <div class="item-detail__img">
+        <img src="{{ item.get_main_image.url }}"/>
+    </div>
+
+    {% if item_head_template %}
+        <div class="item-detail__head">
+            {% include item_head_template %}
+        </div>
+    {% endif %}
+
+    {% if item_body_template %}
+      <div class="item-detail__body">
+          {% include item_body_template %}
+      </div>
+    {% endif %}
+</div>

@@ -1,0 +1,15 @@
+- model: helper.image
+  pk: 1
+  fields:
+    image: images/no_photo.png
+
+- model: helper.image
+  pk: 2
+  fields:
+    image: images/no_photo.png
+
+- model: helper.image
+  pk: 3
+  fields:
+    image: images/no_photo.png
+

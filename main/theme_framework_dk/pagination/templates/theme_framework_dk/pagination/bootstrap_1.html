@@ -1,0 +1,16 @@
+{% load url %}
+
+<ul class="page-links pagination">
+    {% if paginator.has_previous %}
+        <li><a href="{% url_params page=paginator.previous_page_number %}">&laquo;</a></li>
+    {% endif %}
+    
+    {% for i in paginator.paginator.page_range %}
+        <li class="{% ifequal i paginator.number %} active {% endifequal %}"><a href="{% url_params page=i %}">{{ i }}</a></li>
+    {% endfor %}
+
+    {% if paginator.has_next %}
+        <li><a href="{% url_params page=paginator.next_page_number %}">&raquo;</a></li>
+    {% endif %}
+</ul>
+

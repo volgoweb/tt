@@ -1,0 +1,8 @@
+{# Весь основной контент элемента сетки списка. #}
+
+<div class="item__body">
+    {% include "theme_framework_dk/field/classic.html" with label=item.get_field_labels.desc  value=item.desc %}
+    <div class="row">
+        <a href="{{ item.get_absolute_url }}" class="item-more">Подробнее</a>
+    </div>
+</div>

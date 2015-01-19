@@ -10,18 +10,39 @@
 {% block content %}
     <div class="angular" ng-app="project">
         <div class="angular" ng-controller="projects">
-            <ul class="projects-list" ng-repeat="p in projects">
+            <table class="projects-list col-md-12">
+
+              <thead>
+                <tr>
+                  <th rowspan="2">Название</th>
+                  <th rowspan="2">Статус</th>
+                  <th colspan="3">Следующий релиз</th>
+                </tr>
+                <tr>
+                  <th>Дата окончания релиза</th>
+                  <th>Открытых/просроченных задач</th>
+                  <th>Всего задач</th>
+                </tr>
+              </thead>
+
+              <tbody class="projects__list">
                 {% verbatim %}
-                    <div ng-controller="projectItem as ctrl">
-                      <li id="projects-list__item_{{ p.id }}" class="projects-list__item field-title" ng-click="ctrl.click('#projects-list__item_' + p.id)">
-                          <span class="field-view">{{ p.title }}</span>
-                          <span class="field-edit">
-                            <input class="field-title-input" type="text" value="{{ p.title }}"/>
-                          </span>
-                        </li>
-                    </div>
+                    <tr 
+                      id="{{ 'projects-list__item-' + o.id }}" 
+                      class="projects-list__item" 
+                      ng-repeat="o in projects"
+                      ng-click="c.showDetailProject(o.id)"
+                    >
+                        <td>{{ o.title }}</td>
+                        <td>{{ o.release_status.title }}</td>
+                        <td>{{  }}</td>
+                        <td>{{  }}</td>
+                        <td>{{  }}</td>
+                    </tr>
                 {% endverbatim %}
-            </ul>
+              </tbody>
+
+            </table>
         </div>
     </div>
 {% endblock %}

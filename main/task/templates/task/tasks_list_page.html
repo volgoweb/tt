@@ -58,13 +58,13 @@
       <tbody class="tasks__list">
         {% verbatim %}
             <tr 
-              id="{{ 'tasks-list__item-' + m.id }}" 
-              class="tasks-list__item {{ chosen_task.id == m.id && 'active' || '' }}" 
-              ng-repeat="m in tasks"
+              id="{{ 'tasks-list__item-' + o.id }}" 
+              class="tasks-list__item {{ chosen_task.id == o.id && 'active' || '' }}" 
+              ng-repeat="o in tasks"
             >
-                <td ng-click="c.showDetailTask(m.id)"><span class="task-priority task-priority_{{ m.priority.value }}"></span> {{ m.title }}</td>
-                <td ng-click="c.showDetailTask(m.id)">{{ m.status.title }}</td>
-                <td ng-click="c.showDetailTask(m.id)">{{ m.performer.title }}</td>
+                <td ng-click="c.showDetailTask(o.id)"><span class="task-priority task-priority_{{ o.priority.value }}"></span> {{ o.title }}</td>
+                <td ng-click="c.showDetailTask(o.id)">{{ o.status.title }}</td>
+                <td ng-click="c.showDetailTask(o.id)">{{ o.performer.title }}</td>
             </tr>
         {% endverbatim %}
       </tbody>
