@@ -1,0 +1,19 @@
+{% extends "project/project_page.html" %}
+
+{% block page_title %}{{ p.title }}{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+
+    <quote>{{ p.desc }}</quote>
+
+    {% if p.next_release %}
+        <div class="release-field">
+            {# TODO брать заголовок поля из модели #}
+            <label>Следующий релиз</label>
+            {# TODO показывать всплывающую подсказу с подробностями о релизе #}
+            <span>{{ p.next_release.title }} ({{ p.next_release.date }})</span>
+        </div>
+    {% endif %}
+{% endblock %}
+

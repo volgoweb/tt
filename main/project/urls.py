@@ -4,7 +4,7 @@ from main.project.views import *
 from django.views.generic import TemplateView
 from rest_framework import routers
 
-from .views import ProjectViewSet
+from .views import ProjectViewSet, ProjectDetail
 
 router = routers.DefaultRouter()
 router.register(r'', ProjectViewSet)
@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^$', login_required(TemplateView.as_view(template_name = 'project/projects_list.html')), name='projects_list_page'),
     # url(r'^get-models/$', login_required(ProjectModelsInfoView.as_view()), name='get_models'),
     url(r'^rest', include(router.urls), name='rest'),
+    url(r'^(?P<project_id>\d+)$', login_required(ProjectDetail.as_view()), name='project_detail'),
 )

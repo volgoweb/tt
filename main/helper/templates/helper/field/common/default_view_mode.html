@@ -1,0 +1,18 @@
+
+<div 
+    class="field-view" 
+    ng-if="{{ js_obj_name }}.{{ field_name }}.access_type != main.helper.FIELD_ACCESS_TYPE_DENY 
+    && {{ js_obj_name }}.view_mode == 'view'"
+>
+    <label class="form-field__label {{ model_name }}-form-{{ field_name }}__label">
+        {% if label %}
+            {{ label }}
+        {% else %}
+            {% templatetag openvariable %} models.{{ model_name }}.fields_verbose_names.{{ field_name }} {% templatetag closevariable %}
+        {% endif %}
+    </label>
+
+    {% block view_mode %}
+        {% templatetag openvariable %} {{ js_obj_name }}.{{ field_name }}.title {% templatetag closevariable %}
+    {% endblock %}
+</div>

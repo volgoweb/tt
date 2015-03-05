@@ -7,7 +7,7 @@ from django.template import RequestContext
 from django.http import Http404, HttpResponse
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
-from django.views.generic import View
+from django.views.generic import View, DetailView
 from rest_framework import viewsets
 
 from .models import Project
@@ -89,3 +89,9 @@ class JsonProject(JsonView):
     model = Project
 
 
+class ProjectDetail(DetailView):
+    model = Project
+    template_name = 'project/project_detail.html'
+    slug_field = 'pk'
+    slug_url_kwarg = 'project_id'
+    context_object_name = 'p'

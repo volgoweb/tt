@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import imp
 import sys
+import djcelery
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_DIR = os.path.dirname(__file__)
@@ -68,6 +69,8 @@ INSTALLED_APPS = (
     'main.project',
     'main.task',
     'main.account',
+    'main.release',
+    'main.specification',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -232,3 +235,15 @@ CKEDITOR_CONFIGS = {
 #     globals().update(vars(custom_settings_module))
 # except:
 #     print 'ERROR: Additional settings_custom.py load failed. '
+
+# ------------------ 
+# Celery and RabbitMQ
+os.environ['CELERY_LOADER'] = 'django'
+djcelery.setup_loader()
+AMQP_HOST = 'localhost'
+BROKER_HOST = 'localhost'
+BROKER_PORT = 5672
+BROKER_VHOST = '/'
+BROKER_USER = 'root'
+BROKER_PASSWORD = 'root'
+INSTALLED_APPS += ('djcelery',)

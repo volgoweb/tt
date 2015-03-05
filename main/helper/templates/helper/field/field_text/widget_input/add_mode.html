@@ -1,0 +1,17 @@
+
+<div class="field-edit form-field_widget-input {{ model_name }}-form-{{ field_name }}"
+    {% block field_container_attrs %}
+    {% endblock %}
+>
+    <label class="form-field__label {{ model_name }}-form-{{ field_name }}__label">
+        {% if label %}
+            {{ label }}
+        {% else %}
+            {% templatetag openvariable %} models.{{ model_name }}.fields_verbose_names.{{ field_name }} {% templatetag closevariable %}
+        {% endif %}
+    </label>
+
+    <span>
+        <input type="text" name="{{ field_name }}" ng-model="{{ js_obj_name }}.{{ field_name }}"/>
+    </span>
+</div>

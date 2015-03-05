@@ -2,16 +2,19 @@
 {# {% load sitetree %} #}
 {% load authentication %}
 
-{% block main_menu %}
     {# {% sitetree_menu from "main_menu" include "root" template "sitetree/menu_bootstrap3.html" %} #}
     <div class="pull-left">
-        <a href="{% url "project:projects_list_page" %}">Проекты</a>
-        <a href="{% url "task:main_page" %}">Задачи</a>
+        {% block main_menu %}
+            <li><a href="{% url "project:projects_list_page" %}">Проекты</a></li>
+            <li><a href="">Новости</a></li>
+            <li><a href="">Заявки</a></li>
+            <li><a href="{% url "task:main_page" %}">Задачи</a></li>
+        {% endblock %}
     </div>
+
     <div class="pull-right">
         {% auth_menu %}
     </div>
-{% endblock %}
 
 {% block content %}
 {% endblock %}

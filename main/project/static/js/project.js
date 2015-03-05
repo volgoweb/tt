@@ -5,11 +5,13 @@ app.project_detail_css = '.projects__project-detail';
 app.base_url = '/projects/';
 app.base_rest_url = app.base_url + 'rest/';
 
-app.controller('projects', function($scope, $http) {
+app.controller('projectsList', function($scope, $http) {
     $http.get(app.base_rest_url).success(function(data) {
         $scope.projects = data.results;
         console.log($scope.projects);
     });
+
+
     // $scope.projects = [
     //     {
     //         'pk': 1,

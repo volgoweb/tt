@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from main.helper.models import ModelFieldsAccessTypeMixin
 # from main.helper.serializers import BaseSerializer
 from main.account.models import Account
+from main.release.serializers import ReleaseSerializer
 from .models import Project
 
 
@@ -55,6 +56,8 @@ class BaseSerializer(object):
 
 class ProjectSerializer(BaseSerializer, serializers.ModelSerializer):
     # actions = serializers.SerializerMethodField('get_actions')
+    next_release = ReleaseSerializer()
+    get_absolute_url = serializers.URLField(source='get_absolute_url')
 
     class Meta():
         model = Project

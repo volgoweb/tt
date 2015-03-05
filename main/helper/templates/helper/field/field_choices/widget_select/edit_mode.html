@@ -1,0 +1,7 @@
+
+{% extends "helper/field/field_choices/widget_select/add_mode.html" %}
+
+{% block field_container_attrs %}
+    ng-if="{{ js_obj_name }}.{{ field_name }}.access_type == main.helper.FIELD_ACCESS_TYPE_FULL 
+    && {{ js_obj_name }}.view_mode == 'edit'"
+{% endblock %}

@@ -1,7 +1,7 @@
 {% load staticfiles %}
 {% load compress %}
 {% load admin_static %}
-{% load helper %}
+{% load helper_tags %}
 
 <html>
     <head>
@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="main-menu">
-                        <ul class="nav navbar">
+                        <ul class="nav navbar-nav">
                             {% block main_menu %}
                                 <li><a href="{% url "main__front_page" %}">Главная</a></li>
                             {% endblock %}

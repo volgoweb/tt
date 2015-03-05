@@ -1,0 +1,29 @@
+
+
+<div class="field-edit form-field_widget-radio {{ model_name }}-form-{{ field_name }}"
+    {% block field_container_attrs %}
+    {% endblock %}
+>
+    <label class="form-field__label {{ model_name }}-form-{{ field_name }}__label">
+        {% if label %}
+            {{ label }}
+        {% else %}
+            {% templatetag openvariable %} models.{{ model_name }}.fields_verbose_names.{{ field_name }} {% templatetag closevariable %}
+        {% endif %}
+    </label>
+
+    <select 
+        class="form-field__values form-field__values_widget-select"
+        {% block value_directives %}
+            ng-model="{{ js_obj_name }}.{{ field_name }}.value" 
+            ng-options="k as v for (k, v) in
+                {% if choices %}
+                    {{ choices }}
+                {% else %}
+                    {{ js_obj_name }}.{{ field_name }}.choices
+                {% endif %}
+            "
+        {% endblock %}
+    >
+    </select>
+</div>

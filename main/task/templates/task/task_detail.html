@@ -1,3 +1,4 @@
+{% load helper_field %}
 
 <form class="tasks__task-detail" name="taskDetailForm" ng-show="chosen_task">
     <div class="task-detail__actions">
@@ -57,138 +58,12 @@
     </div>
     {# ------- / desc ------- #}
 
-    {# ------- priority ------- #}
-    <div 
-        class="field-edit" 
-        ng-if="chosen_task.priority.access_type == main.helper.FIELD_ACCESS_TYPE_FULL 
-        && chosen_task.view_mode == 'edit'"
-    >
-        {% include "task/task_detail/field_priority/edit_mode.html" with obj_name="chosen_task" %}
-    </div>
-    <div 
-        class="field-view" 
-        ng-if="chosen_task.priority.access_type != main.helper.FIELD_ACCESS_TYPE_DENY 
-        && chosen_task.view_mode == 'view'"
-    >
-        {% include "task/task_detail/field_priority/view_mode.html" %}
-    </div>
-    {# ------- / priority ------- #}
+    {% choices_field_view_and_edit_mode widget="widget_radio" js_obj_name="chosen_task" model_name="Task" field_name="priority" %}
+    {% choices_field_view_and_edit_mode widget="widget_radio" js_obj_name="chosen_task" model_name="Task" field_name="importance" %}
+    {% choices_field_view_and_edit_mode widget="widget_radio" js_obj_name="chosen_task" model_name="Task" field_name="performer" %}
+    {% choices_field_view_and_edit_mode widget="widget_radio" js_obj_name="chosen_task" model_name="Task" field_name="lead_programmer" %}
+    {% choices_field_view_and_edit_mode widget="widget_radio" js_obj_name="chosen_task" model_name="Task" field_name="tester" %}
+    {% choices_field_view_and_edit_mode widget="widget_radio" js_obj_name="chosen_task" model_name="Task" field_name="manager" %}
+    {% choices_field_view_and_edit_mode widget="widget_radio" js_obj_name="chosen_task" model_name="Task" field_name="client" %}
 
-    {# ------- importance ------- #}
-    <div 
-        class="field-edit" 
-        ng-if="chosen_task.importance.access_type == main.helper.FIELD_ACCESS_TYPE_FULL 
-        && chosen_task.view_mode == 'edit'"
-    >
-        {% include "task/task_detail/field_importance/edit_mode.html" with obj_name="chosen_task" %}
-    </div>
-    <div 
-        class="field-view" 
-        ng-if="chosen_task.importance.access_type != main.helper.FIELD_ACCESS_TYPE_DENY 
-        && chosen_task.view_mode == 'view'"
-    >
-        {% include "task/task_detail/field_importance/view_mode.html" %}
-    </div>
-    {# ------- / importance ------- #}
-
-    {# ------- status ------- #}
-    {# <div  #}
-    {#     class="field-edit"  #}
-    {#     ng-if="chosen_task.status.access_type == main.helper.FIELD_ACCESS_TYPE_FULL && chosen_task.view_mode == 'edit'" #}
-    {# > #}
-    {#     {% include "task/task_detail/field_status/edit_mode.html" with obj_name="chosen_task" %} #}
-    {# </div> #}
-    {# <div  #}
-    {#     class="field-view"  #}
-    {#     ng-if="chosen_task.status.access_type != main.helper.FIELD_ACCESS_TYPE_DENY && chosen_task.view_mode == 'view'" #}
-    {# > #}
-    {#     {% include "task/task_detail/field_status/view_mode.html" %} #}
-    {# </div> #}
-    {# ------- / status ------- #}
-
-    {# ------- performer ------- #}
-    <div 
-        class="field-edit" 
-        ng-if="chosen_task.performer.access_type == main.helper.FIELD_ACCESS_TYPE_FULL 
-        && chosen_task.view_mode == 'edit'"
-    >
-        {% include "task/task_detail/field_user/edit_mode.html" with obj_name="chosen_task" field_name="performer" %}
-    </div>
-    <div 
-        class="field-view" 
-        ng-if="chosen_task.performer.access_type != main.helper.FIELD_ACCESS_TYPE_DENY 
-        && chosen_task.view_mode == 'view'"
-    >
-        {% include "task/task_detail/field_user/view_mode.html" with field_name="performer" %}
-    </div>
-    {# ------- / performer ------- #}
-
-    {# ------- lead_programmer ------- #}
-    <div 
-        class="field-edit" 
-        ng-if="chosen_task.lead_programmer.access_type == main.helper.FIELD_ACCESS_TYPE_FULL 
-        && chosen_task.view_mode == 'edit'"
-    >
-        {% include "task/task_detail/field_user/edit_mode.html" with obj_name="chosen_task" field_name="lead_programmer" %}
-    </div>
-    <div 
-        class="field-view" 
-        ng-if="chosen_task.lead_programmer.access_type != main.helper.FIELD_ACCESS_TYPE_DENY 
-        && chosen_task.view_mode == 'view'
-        && chosen_task.lead_programmer.value"
-    >
-        {% include "task/task_detail/field_user/view_mode.html" with field_name="lead_programmer" %}
-    </div>
-    {# ------- / lead_programmer ------- #}
-
-    {# ------- tester ------- #}
-    <div 
-        class="field-edit" 
-        ng-if="chosen_task.tester.access_type == main.helper.FIELD_ACCESS_TYPE_FULL && chosen_task.view_mode == 'edit'"
-    >
-        {% include "task/task_detail/field_user/edit_mode.html" with obj_name="chosen_task" field_name="tester" %}
-    </div>
-    <div 
-        class="field-view" 
-        ng-if="chosen_task.tester.access_type != main.helper.FIELD_ACCESS_TYPE_DENY
-        && chosen_task.view_mode == 'view'
-        && chosen_task.tester.value"
-    >
-        {% include "task/task_detail/field_user/view_mode.html" with field_name="tester" %}
-    </div>
-    {# ------- / tester ------- #}
-
-    {# ------- manager ------- #}
-    <div 
-        class="field-edit" 
-        ng-if="chosen_task.manager.access_type == main.helper.FIELD_ACCESS_TYPE_FULL && chosen_task.view_mode == 'edit'"
-    >
-        {% include "task/task_detail/field_user/edit_mode.html" with obj_name="chosen_task" field_name="manager" %}
-    </div>
-    <div 
-        class="field-view" 
-        ng-if="chosen_task.manager.access_type != main.helper.FIELD_ACCESS_TYPE_DENY
-        && chosen_task.view_mode == 'view'
-        && chosen_task.manager.value"
-    >
-        {% include "task/task_detail/field_user/view_mode.html" with field_name="manager" %}
-    </div>
-    {# ------- / manager ------- #}
-
-    {# ------- client ------- #}
-    <div 
-        class="field-edit" 
-        ng-if="chosen_task.client.access_type == main.helper.FIELD_ACCESS_TYPE_FULL && chosen_task.view_mode == 'edit'"
-    >
-        {% include "task/task_detail/field_user/edit_mode.html" with obj_name="chosen_task" field_name="client" %}
-    </div>
-    <div 
-        class="field-view" 
-        ng-if="chosen_task.client.access_type != main.helper.FIELD_ACCESS_TYPE_DENY
-        && chosen_task.view_mode == 'view'
-        && chosen_task.client.value"
-    >
-        {% include "task/task_detail/field_user/view_mode.html" with field_name="client" %}
-    </div>
-    {# ------- / client ------- #}
 </form>

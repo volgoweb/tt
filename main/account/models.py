@@ -32,6 +32,9 @@ class AccountManager(BaseUserManager):
         user.save(using = self._db)
         return user
 
+    def get_by_natural_key(self, email):
+        return self.get(email=email)
+
 class Account(AbstractBaseUser):
     email = models.EmailField(_('email address'), max_length = 255, unique = True)
     first_name = models.CharField(_('first name'), max_length=30)

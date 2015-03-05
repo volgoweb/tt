@@ -11,6 +11,7 @@ from main.helper.models import ModelFieldsAccessTypeMixin
 from main.account.models import Account
 from main.project.models import Project
 from .collections import TaskCollectionsFabric
+from .tasks import caching_all_rendered_tasks_items
 
 
 class TaskFieldsAccessTypeMixin(ModelFieldsAccessTypeMixin):
@@ -430,6 +431,8 @@ class Task(EntityBaseFields, TitleField, DescField,
     client          = models.ForeignKey('account.Account', verbose_name = u'Клиент', related_name = 'task_client', blank = True, null = True)
 
     project    = models.ForeignKey('project.Project', verbose_name = u'Проект', related_name = 'task_project', blank = True, null = True)
+    specification = models.ForeignKey('specification.Specification', verbose_name = u'Глава ТЗ', related_name = 'task_specification', blank = True, null = True)
+    release = models.ForeignKey('release.Release', verbose_name = u'Релиз', related_name = 'task_release', blank = True, null = True)
 
     # objects = models.Manager()
 
@@ -496,10 +499,14 @@ class Task(EntityBaseFields, TitleField, DescField,
 
 @receiver(post_save, sender=Task)
 def task_post_save(sender, instance, *args, **kwargs):
-    collections_fabric = TaskCollectionsFabric(instance)
-    # добавляем задачу в коллекции, которым подходит данная задача по свойствам
-    for c in collections_fabric.get_appropriate_collections():
-        c.add_item(instance.pk)
-    # исключаем задачу из коллекций, которым данная задача не подходит по свойствам
-    for c in collections_fabric.get_inappropriate_collections():
-        c.delete_item(instance.pk)
+    # запускаем ассинхронно через celery кэширование всего,
+    # что связано с сохраненной задачей
+    caching_all_rendered_tasks_items.delay(instance)
+
+    # collections_fabric = TaskCollectionsFabric(instance)
+    # # добавляем задачу в коллекции, которым подходит данная задача по свойствам
+    # for c in collections_fabric.get_appropriate_collections():
+    #     c.add_item(instance.pk)
+    # # исключаем задачу из коллекций, которым данная задача не подходит по свойствам
+    # for c in collections_fabric.get_inappropriate_collections():
+    #     c.delete_item(instance.pk)

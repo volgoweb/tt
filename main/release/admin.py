@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Release
 
-# Register your models here.
+class ReleaseAdmin(admin.ModelAdmin):
+    list_display = ['title', 'project', 'date']
+
+admin.site.register(Release, ReleaseAdmin)

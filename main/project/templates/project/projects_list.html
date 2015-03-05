@@ -1,6 +1,7 @@
 {% extends "page.html" %}
 
 {% load staticfiles %}
+{% load url from future %}
 
 {% block scripts %}
     {{ block.super }}
@@ -9,7 +10,7 @@
 
 {% block content %}
     <div class="angular" ng-app="project">
-        <div class="angular" ng-controller="projects">
+        <div class="angular" ng-controller="projectsList">
             <table class="projects-list col-md-12">
 
               <thead>
@@ -19,27 +20,28 @@
                   <th colspan="3">Следующий релиз</th>
                 </tr>
                 <tr>
-                  <th>Дата окончания релиза</th>
+                  <th>Название релиза</th>
+                  <th>Дата релиза</th>
                   <th>Открытых/просроченных задач</th>
                   <th>Всего задач</th>
                 </tr>
               </thead>
 
               <tbody class="projects__list">
-                {% verbatim %}
-                    <tr 
-                      id="{{ 'projects-list__item-' + o.id }}" 
-                      class="projects-list__item" 
-                      ng-repeat="o in projects"
-                      ng-click="c.showDetailProject(o.id)"
-                    >
-                        <td>{{ o.title }}</td>
-                        <td>{{ o.release_status.title }}</td>
-                        <td>{{  }}</td>
-                        <td>{{  }}</td>
-                        <td>{{  }}</td>
-                    </tr>
-                {% endverbatim %}
+                    {% verbatim %}
+                        <tr 
+                            id="{{ 'projects-list__item-' + p.id }}" 
+                          class="projects-list__item" 
+                          ng-repeat="p in projects"
+                        >
+                        <td><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></td>
+                                <td>{{ p.status }}</td>
+                                <td>{{ p.next_release.title }}</td>
+                                <td>{{ p.next_release.date }}</td>
+                                <td>{{  }}</td>
+                                <td>{{  }}</td>
+                        </tr>
+                    {% endverbatim %}
               </tbody>
 
             </table>

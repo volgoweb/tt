@@ -1,3 +1,4 @@
+{% load helper_field %}
 
 <form
     class="tasks__task-add"
@@ -5,12 +6,19 @@
     ng-show="addTaskFormVisible"
     style="border: 2px solid yellow; padding: 10px;"
 >
-    {# ------- project ------- #}
-    <div class="field-edit">
-        {% include "task/task_detail/field_project/add_mode.html" with obj_name="new_task" %}
+    <div class="container">
+        <h2 class="pull-left">Новая задача</h2>
+        <button
+            class="btn btn-default pull-right"
+            ng-click="addTaskFormVisible=false"
+        >Х</button>
     </div>
-    {# ------- / project ------- #}
+        
+    {% choices_field_add_mode widget="widget_select" js_obj_name="new_task" model_name="Task" field_name="project" choices="models.Task.fields_choices.project" %}
+    {% choices_field_add_mode widget="widget_select" js_obj_name="new_task" model_name="Task" field_name="release" choices="models.Task.fields_choices.release" %}
 
+    {# TODO все-таки надо отдельный тег на каждый тип поля #}
+    {# {% render_field "text" "input" "add" js_obj_name="new_task" model_name="Task" field_name="title" %} #}
     {% verbatim %}
     <div class="field-edit">
         <label>{{ models.Task.fields_verbose_names.title }}</label>
@@ -27,41 +35,13 @@
         </span>
     </div>
 
-    {# ------- priority ------- #}
-    <div class="field-edit">
-        {% include "task/task_detail/field_priority/add_mode.html" with obj_name="new_task" %}
-    </div>
-    {# ------- / priority ------- #}
-
-    {# ------- performer ------- #}
-    <div class="field-edit">
-        {% include "task/task_detail/field_user/add_mode.html" with obj_name="new_task" field_name="performer" %}
-    </div>
-    {# ------- / performer ------- #}
-
-    {# ------- lead_programmer ------- #}
-    <div class="field-edit">
-        {% include "task/task_detail/field_user/add_mode.html" with obj_name="new_task" field_name="lead_programmer" %}
-    </div>
-    {# ------- / lead_programmer ------- #}
-
-    {# ------- tester ------- #}
-    <div class="field-edit">
-        {% include "task/task_detail/field_user/add_mode.html" with obj_name="new_task" field_name="tester" %}
-    </div>
-    {# ------- / tester ------- #}
-
-    {# ------- manager ------- #}
-    <div class="field-edit">
-        {% include "task/task_detail/field_user/add_mode.html" with obj_name="new_task" field_name="manager" %}
-    </div>
-    {# ------- / manager ------- #}
-
-    {# ------- client ------- #}
-    <div class="field-edit">
-        {% include "task/task_detail/field_user/add_mode.html" with obj_name="new_task" field_name="client" %}
-    </div>
-    {# ------- / client ------- #}
+    {% choices_field_add_mode widget="widget_select" js_obj_name="new_task" model_name="Task" field_name="priority" choices="models.Task.fields_choices.priority" %}
+    {% choices_field_add_mode widget="widget_select" js_obj_name="new_task" model_name="Task" field_name="importance" choices="models.Task.fields_choices.importance" %}
+    {% choices_field_add_mode widget="widget_select" js_obj_name="new_task" model_name="Task" field_name="performer" choices="models.Task.fields_choices.performer" %}
+    {% choices_field_add_mode widget="widget_select" js_obj_name="new_task" model_name="Task" field_name="lead_programmer" choices="models.Task.fields_choices.lead_programmer" %}
+    {% choices_field_add_mode widget="widget_select" js_obj_name="new_task" model_name="Task" field_name="tester" choices="models.Task.fields_choices.tester" %}
+    {% choices_field_add_mode widget="widget_select" js_obj_name="new_task" model_name="Task" field_name="manager" choices="models.Task.fields_choices.manager" %}
+    {% choices_field_add_mode widget="widget_select" js_obj_name="new_task" model_name="Task" field_name="client" choices="models.Task.fields_choices.client" %}
 
     <div class="task-detail__actions">
         <button class="btn btn-success" 

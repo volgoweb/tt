@@ -71,7 +71,7 @@ class EntityBaseFields(models.Model, FieldsLabelsMixin):
     update_date = models.DateTimeField(
         auto_now     = True,
         editable     = False,
-        verbose_name = u'Дата создания',
+        verbose_name = u'Дата обновления',
     )
 
     active = models.BooleanField(
@@ -180,7 +180,7 @@ class DateField(models.Model):
     class Meta():
         abstract = True
 
-    date = models.DateTimeField(
+    date = models.DateField(
         blank        = True,
         null         = True,
         verbose_name = u'Дата',
